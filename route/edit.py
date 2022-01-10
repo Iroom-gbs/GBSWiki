@@ -6,6 +6,9 @@ def edit_2(conn, name, section):
     ip = ip_check()
     if acl_check(name) == 1:
         return re_error('/ban')
+
+    if name == '':
+        return re_error('/no_input')
     
     curs.execute(db_change("select id from history where title = ? order by id + 0 desc"), [name])
     doc_ver = curs.fetchall()
@@ -29,6 +32,15 @@ def edit_2(conn, name, section):
 
         today = get_time()
         content = flask.request.form.get('content', '').replace('\r\n', '\n')
+        if content == '':
+            return re_error('/no_input')
+
+        if doc_ver != '0':
+            curs.execute(db_change("select data from data where title = ?"), [name])
+            content_present = (curs.fetchall())[0][0]
+            if len(content_present) == len(content):
+                if content_present == content:
+                    return re_error('/not_changed')
         
         if edit_filter_do(content) == 1:
             return re_error('/error/21')
