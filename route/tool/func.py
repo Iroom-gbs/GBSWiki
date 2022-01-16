@@ -1663,24 +1663,18 @@ def re_error(data):
             data = '<h2>' + load_lang('error') + '</h2>' + end,
             menu = 0
         )), 401
-    elif data == '/no_input':
+    elif data.startswith('/gbswiki_error'):
+        error_code = data.replace("/gbswiki_error","")
+        if error_code == '/no_input':
+            data = '제목 또는 내용이 없습니다.'
+        elif error_code == '/not_changed':
+            data = '변경사항이 없습니다.'
         return easy_minify(flask.render_template(skin_check(),
             imp=[load_lang('error'), wiki_set(1), wiki_custom(), wiki_css([0, 0])],
             data='' + \
               '<h2>' + load_lang('error') + '</h2>' + \
               '<ul class="inside_ul">' + \
-              '<li>' + '제목 또는 내용이 없습니다.' + '</li>' + \
-              '</ul>' + \
-              '',
-            menu=0
-            )), 400
-    elif data == '/not_changed':
-        return easy_minify(flask.render_template(skin_check(),
-            imp=[load_lang('error'), wiki_set(1), wiki_custom(), wiki_css([0, 0])],
-            data='' + \
-              '<h2>' + load_lang('error') + '</h2>' + \
-              '<ul class="inside_ul">' + \
-              '<li>' + '변경사항이 없습니다.' + '</li>' + \
+              '<li>' + data + '</li>' + \
               '</ul>' + \
               '',
             menu=0
