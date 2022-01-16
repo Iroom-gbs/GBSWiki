@@ -1669,6 +1669,8 @@ def re_error(data):
             data = '제목 또는 내용이 없습니다.'
         elif error_code == '/not_changed':
             data = '변경사항이 없습니다.'
+        elif error_code == '/already_exist':
+            data = '이미 문서가 존재합니다.'
         return easy_minify(flask.render_template(skin_check(),
             imp=[load_lang('error'), wiki_set(1), wiki_custom(), wiki_css([0, 0])],
             data='' + \
