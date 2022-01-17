@@ -161,7 +161,6 @@ def custom_run(conn, app):
         ip = ip_check()
         curs.execute(db_change("select data from user_set where id= ? and name='email' order by id + 0 desc"), [ip])
         email = curs.fetchall()
-        email = [['testemail']]
         '''
         if not email:
             return re_error("/gbswiki_error/email")
