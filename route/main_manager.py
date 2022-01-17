@@ -72,6 +72,10 @@ def main_manager_2(conn, num):
                         <li><a href="/api/skin_info?all=true">''' + load_lang('skin_info') + '''</a></li>
                         <div id="ver_send_3"></div>
                     </ul>
+                    <h2>4. GBSWiki</h2>
+                    <ul class="inside_ul">
+                        <li><a href="/generate_student">학생 문서 생성</a></li>
+                    </ul>
                 </div>
                 <script>load_ver(); do_skin_ver_check(); simple_render('other_simple_render');</script>
             ''',
