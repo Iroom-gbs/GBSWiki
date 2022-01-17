@@ -185,6 +185,10 @@ if setup_tool != 'normal':
     create_data['ua_d'] = ['name', 'ip', 'ua', 'today', 'sub']
 
     create_data['user_set'] = ['name', 'id', 'data']
+
+    # 커스텀
+    create_data['gbswiki'] = ['name', 'id', 'data', 'p1', 'p2']
+
     for create_table in create_data:
         for create in ['test'] + create_data[create_table]:
             try:

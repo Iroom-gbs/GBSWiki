@@ -47,7 +47,11 @@ def main_other_2(conn):
                     <li><a href="/upload">''' + load_lang('upload') + '''</a></li>
                     <li><a href="/manager/10">''' + load_lang('search') + '''</a></li>
                 </ul>
-                <h2>4. ''' + load_lang('admin') + '''</h2>
+                <h2>4. GBSWiki</h2>
+                    <ul class="inside_ul">
+                        <li><a href="/generate_student/request">학생 문서 생성</a></li>
+                    </ul>
+                <h2>5. ''' + load_lang('admin') + '''</h2>
                 <ul class="inside_ul">
                     <li><a href="/manager/1">''' + load_lang('admin_tool') + '''</a></li>
                 </ul>
