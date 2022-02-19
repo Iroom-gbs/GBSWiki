@@ -1,7 +1,10 @@
 [(en-US)](./readme-en.md) | [(ko-KR)](./readme.md)
 
+# GBSWiki
+이 위키엔진은 오픈나무를 바탕으로 만들어진 위키 엔진입니다. 경기북과학고 [GBSWiki](https://gbs.wiki)에 사용됩니다.
+
 # 오픈나무
-[![Python 3.7 이상](https://img.shields.io/badge/python->=%203.7-blue.svg)](https://python.org)
+[![Python 3.6 이상](https://img.shields.io/badge/python->=%203.6-blue.svg)](https://python.org)
 [![라이선스](https://img.shields.io/badge/license-BSD%203--Clause-lightgrey.svg)](./LICENSE)
 
 ![](https://raw.githubusercontent.com/openNAMU/openNAMU/beta/.github/logo.png)
