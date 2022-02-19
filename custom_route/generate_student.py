@@ -10,12 +10,12 @@ def generate_student_doc(conn, name, gen):
     curs.execute(db_change("select id from history where title = ? order by id + 0 desc"), [name + '(' + gen + ')'])
     doc_ver = curs.fetchall()
     if doc_ver:
-        return re_error('/gbswiki_error/already_exist')
+        return custom_re_error('/already_exist')
 
     curs.execute(db_change("select data from history where title = ? order by id + 0 desc"), ['템플릿:학생'])
     template = curs.fetchall()
     if not template:
-        return re_error('/custom/템플릿이 없습니다.')
+        return custom_re_error('/custom/템플릿이 없습니다.')
     content = template[0][0]
     content = content.replace('(이름)', name).replace('(기수)', gen).replace('[[분류:템플릿]]', '')
     edit_doc(conn, name + "(" + gen + ")", content, "", "학생 문서 생성")
@@ -30,7 +30,7 @@ def generate_student_doc(conn, name, gen):
         curs.execute(db_change("select data from history where title = ? order by id + 0 desc"), ['템플릿:기수'])
         template = curs.fetchall()
         if not template:
-            return re_error('/custom/템플릿이 없습니다.')
+            return custom_re_error('/custom/템플릿이 없습니다.')
         content = template[0][0]
         content = content.replace('(이름)((기수)기)', name).replace('[[분류:템플릿]]', '')
 
@@ -84,7 +84,7 @@ def request_generate_student_2(conn):
     curs.execute(db_change("select data from user_set where id= ? and name='email' order by id + 0 desc"), [ip])
     email = curs.fetchall()
     if not email:
-        return re_error("/gbswiki_error/email")
+        return custom_re_error("/email")
     try:
         name = flask.request.form['name']
         gen = str(int(flask.request.form['gen'])) + '기'
@@ -92,7 +92,7 @@ def request_generate_student_2(conn):
         return easy_minify(flask.render_template(skin_check(),
             imp=['학생문서 생성 신청', wiki_set(1), wiki_custom(), wiki_css([0, 0])],
             data='''
-            본인이 직접 신청하여야 합니다.<br>
+            본인이 직접 신청하여야 합니다.<br><br>
             <form method="post">
             <input placeholder="''' + '학생 이름' + '''" name="name" type="text">
             <hr class=\"main_hr\">
@@ -146,8 +146,8 @@ def accept_student_request_2(conn, name, gen):
     curs = conn.cursor()
     curs.execute(db_change("select data from gbswiki where name='student_gen' and p1=? and p2=? order by ip + 0 desc"),[name,gen])
     if curs.fetchall():
-        return generate_student_doc(name,gen.replace('기',''))
-    else: return re_error('/custom/ 일치하는 요청이 없습니다.')
+        return generate_student_doc(conn, name, gen.replace('기',''))
+    else: return custom_re_error('/custom/ 일치하는 요청이 없습니다.')
 
 
 def delete_student_request_2(conn, name, gen):
@@ -162,4 +162,4 @@ def delete_student_request_2(conn, name, gen):
         conn.commit()
         return redirect('/generate_student/list')
     else:
-        return re_error('/custom/일치하는 요청이 없습니다.')
+        return custom_re_error('/custom/일치하는 요청이 없습니다.')

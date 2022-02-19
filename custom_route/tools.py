@@ -70,3 +70,35 @@ def set_acl(curs, title, why, decu, dis, view):
     curs.execute(db_change("insert into acl (title, data, type) values (?, ?, ?)"), [title, why, 'why'])
 
     return 1
+
+
+def custom_re_error(error_code):
+    if error_code.startswith('/custom'):
+        return easy_minify(flask.render_template(skin_check(),
+                         imp=[load_lang('error'), wiki_set(1), wiki_custom(), wiki_css([0, 0])],
+                         data='' + \
+                              '<h2>' + load_lang('error') + '</h2>' + \
+                              '<ul class="inside_ul">' + \
+                              '<li>' + error_code.replace('/custom/', '') + '</li>' + \
+                              '</ul>' + \
+                              '',
+                         menu=0
+                         )), 400
+    if error_code == '/no_input':
+        data = '제목 또는 내용이 없습니다.'
+    elif error_code == '/not_changed':
+        data = '변경사항이 없습니다.'
+    elif error_code == '/already_exist':
+        data = '이미 문서가 존재합니다.'
+    elif error_code == '/email':
+        data = '이메일 인증이 필요합니다.'
+    return easy_minify(flask.render_template(skin_check(),
+        imp=[load_lang('error'), wiki_set(1), wiki_custom(), wiki_css([0, 0])],
+        data='' + \
+          '<h2>' + load_lang('error') + '</h2>' + \
+          '<ul class="inside_ul">' + \
+          '<li>' + data + '</li>' + \
+          '</ul>' + \
+          '',
+        menu=0
+        )), 400
