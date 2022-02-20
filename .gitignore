@@ -6,12 +6,12 @@ data/mysql.json
 data/oauthsettings.json
 data/version.json
 
-route/tool/set_mark/custom.py
-
 images
 .vscode
 
 *.db
+*.db-shm
+*.db-wal
 *.db-journal
 
 robots.txt

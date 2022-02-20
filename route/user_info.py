@@ -1,4 +1,5 @@
 from .tool.func import *
+from custom_route.tools import *
 
 def user_info_2(conn, name):
     curs = conn.cursor()
@@ -48,6 +49,7 @@ def user_info_2(conn, name):
         admin_menu = '''
             <h2>''' + load_lang('admin') + '''</h2>
             <ul class="inside_ul">
+                <li>이메일 : ''' + get_email(conn, ip) + '''</li>
                 <li><a href="/ban/''' + url_pas(ip) + '''">''' + ban_name + '''</a></li>
                 <li><a href="/check/''' + url_pas(ip) + '''">''' + load_lang('check') + '''</a></li>
             </ul>
