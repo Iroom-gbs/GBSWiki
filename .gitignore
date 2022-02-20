@@ -13,6 +13,8 @@ images
 *.db-shm
 *.db-wal
 *.db-journal
+data.db-shm
+data.db-wal
 
 robots.txt
 404.html
