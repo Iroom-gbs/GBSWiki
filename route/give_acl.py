@@ -37,7 +37,7 @@ def give_acl_2(conn, name):
         acl_data += [['why', flask.request.form.get('why', '')]]
         set_close(conn, name, flask.request.form.get('close', ''))
         
-        curs.execute(db_change("select title from acl where title = ?"), [name])
+        curs.execute(db_change("select title from acl where title = ? and type != 'close'"), [name])
         if curs.fetchall():
             for i in acl_data:
                 curs.execute(db_change("update acl set data = ? where title = ? and type = ?"), [i[1], name, i[0]])
