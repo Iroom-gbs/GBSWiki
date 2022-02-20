@@ -15,6 +15,7 @@ import email.header
 
 import urllib.request
 
+
 # Init-Version
 version_list = json.loads(open('version.json', encoding = 'utf8').read())
 
@@ -1266,9 +1267,22 @@ def acl_check(name = 'test', tool = '', topic_num = '1'):
                 ), [name])
             else:
                 curs.execute(db_change("select data from other where name = 'all_view_acl'"))
-
             num = 5
 
+        curs.execute(db_change("select data from acl where title = ? and type = 'close'"), [name])
+        data = curs.fetchall()
+        if data:
+            if data[0][0] == '1':
+                if ip_or_user(ip) != 1:
+                    if admin_check(5) == 1:
+                        return 0
+                    else:
+                        curs.execute(db_change(
+                            "select data from user_set where id = ? and name = 'email'"
+                        ), [ip])
+                        if curs.fetchall():
+                            return 0
+                return 1
         acl_data = curs.fetchall()
         if not acl_data:
             acl_data = [['normal']]

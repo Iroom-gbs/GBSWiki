@@ -24,3 +24,8 @@ def custom_run(conn, app):
     @app.route('/generate_student/delete/<everything:name>/<everything:gen>', methods=['POST','GET'])
     def delete_student_request(name, gen):
         return delete_student_request_2(conn, name, gen)
+
+    @app.route('/test', methods=['GET'])
+    def test_func():
+        get_email(conn, "1")
+        return redirect("/")

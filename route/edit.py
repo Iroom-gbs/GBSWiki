@@ -44,7 +44,8 @@ def edit(name = 'Test', name_load = 0, section = 0):
                 content_present = (curs.fetchall())[0][0]
                 if len(content_present) == len(content):
                     if content_present == content:
-                        return custom_re_error('/not_changed')
+                        if (flask.request.form.get('close', '') and check_close(conn, name)) or (not flask.request.form.get('close', '') and not check_close(conn, name)):
+                            return custom_re_error('/not_changed')
             
             if edit_filter_do(content) == 1:
                 return re_error('/error/21')
@@ -85,7 +86,10 @@ def edit(name = 'Test', name_load = 0, section = 0):
             
             curs.execute(db_change("delete from back where link = ?"), [name])
             curs.execute(db_change("delete from back where title = ? and type = 'no'"), [name])
-            
+            if flask.request.form.get('close', ''):
+                set_close(conn, name, 1)
+            else: set_close(conn, name, 0)
+
             render_set(
                 doc_name = name,
                 doc_data = content,
@@ -193,7 +197,11 @@ def edit(name = 'Test', name_load = 0, section = 0):
                 'section' : section,
                 'markup' : markup
              }
-    
+
+            if check_close(conn, name):
+                close = 'checked'
+            else: close = ''
+
             return easy_minify(flask.render_template(skin_check(), 
                 imp = [name, wiki_set(), wiki_custom(), wiki_css(['(' + load_lang('edit') + ')', 0])],
                 data =  editor_top_text + add_get_file + '''
@@ -211,6 +219,8 @@ def edit(name = 'Test', name_load = 0, section = 0):
                         <hr class="main_hr">
                         <input  placeholder="''' + load_lang('why') + '''" 
                                 name="send">
+                        <hr class="main_hr">
+                        <label><input  type="checkbox" name="close" value="1"''' + close + '''>외부인 열람 차단</label>
                         <textarea   style="display: none;" 
                                     id="origin">''' + html.escape(data) + '''</textarea>
                         <textarea   style="display: none;"

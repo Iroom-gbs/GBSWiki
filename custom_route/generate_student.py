@@ -21,7 +21,7 @@ def generate_student_doc(conn, name, gen):
     edit_doc(conn, name + "(" + gen + ")", content, "", "학생 문서 생성")
 
     # ACL 설정
-    set_acl(curs, name + "(" + gen + ")", "학생 문서", "email", "email", "email")
+    set_acl(conn, name + "(" + gen + ")", "학생 문서", "email", "email", "email")
 
     # 기수 문서에 추가
     curs.execute(db_change("select data from history where title = ? order by id + 0 desc"), [gen])

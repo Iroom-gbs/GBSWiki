@@ -1,4 +1,5 @@
 from .tool.func import *
+from custom_route.tools import *
 
 def give_acl_2(conn, name):
     curs = conn.cursor()
@@ -34,6 +35,7 @@ def give_acl_2(conn, name):
         acl_data += [['dis', flask.request.form.get('dis', '')]]
         acl_data += [['view', flask.request.form.get('view', '')]]
         acl_data += [['why', flask.request.form.get('why', '')]]
+        set_close(conn, name, flask.request.form.get('close', ''))
         
         curs.execute(db_change("select title from acl where title = ?"), [name])
         if curs.fetchall():
@@ -88,6 +90,21 @@ def give_acl_2(conn, name):
     
             data += '</select>'
             data += '<hr class="main_hr">'
+
+        if check_close(conn, name):
+            close_1 = 'selected="selected"'
+            close_0 = ""
+        else:
+            close_1 = ""
+            close_0 = 'selected="selected"'
+        data += '<h2>' + '외부인 열람 차단' + '</h2>' + \
+                '<select name="close"' + check_ok + '>' + \
+                '<option value="0" ' + close_0 + '>False</option>' + \
+                '<option value="1" ' + close_1 + '>True</option>' + \
+                '<hr class="main_hr"><hr>' + \
+                '</select>'
+        data += '<hr class="main_hr">'
+        data += '<hr class="main_hr">'
 
         curs.execute(db_change("select data from acl where title = ? and type = ?"), [name, 'why'])
         acl_data = curs.fetchall()
