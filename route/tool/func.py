@@ -1203,6 +1203,20 @@ def acl_check(name = 'test', tool = '', topic_num = '1'):
     else:
         end = 1
 
+    curs.execute(db_change("select data from acl where title = ? and type = 'close'"), [name])
+    data = curs.fetchall()
+    if data:
+        if data[0][0] == '1':
+            if ip_or_user(ip) != 1:
+                if not admin_check(5) == 1:
+                    curs.execute(db_change(
+                        "select data from user_set where id = ? and name = 'email'"
+                    ), [ip])
+                    if not curs.fetchall():
+                        return 1
+            else:
+                return 1
+
     for i in range(0, end):
         if tool == '':
             if i == 0:
@@ -1269,20 +1283,7 @@ def acl_check(name = 'test', tool = '', topic_num = '1'):
                 curs.execute(db_change("select data from other where name = 'all_view_acl'"))
             num = 5
 
-        curs.execute(db_change("select data from acl where title = ? and type = 'close'"), [name])
-        data = curs.fetchall()
-        if data:
-            if data[0][0] == '1':
-                if ip_or_user(ip) != 1:
-                    if admin_check(5) == 1:
-                        return 0
-                    else:
-                        curs.execute(db_change(
-                            "select data from user_set where id = ? and name = 'email'"
-                        ), [ip])
-                        if curs.fetchall():
-                            return 0
-                return 1
+
         acl_data = curs.fetchall()
         if not acl_data:
             acl_data = [['normal']]
