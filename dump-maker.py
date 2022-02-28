@@ -1,5 +1,5 @@
 import sqlite3
-import shutil
+import json
 
 conn = sqlite3.connect('./data.db')
 curs = conn.cursor()
@@ -31,10 +31,21 @@ curs.execute("drop table acl")
 curs.execute("create table contributor (title longtext, name longtext)")
 curs.execute("select title from data")
 titles = curs.fetchall()
+
+jsondata = []
 for i in titles:
     title = i[0]
     curs.execute("select distinct title, ip from history where title=?", [title])
     contributors = curs.fetchall()
     curs.executemany("insert into contributor values (?, ?)", contributors)
+    curs.execute("select data from data where title=?",[title])
+    contributors_dict = []
+    for j in contributors:
+        contributors_dict.append(j[1])
+    jd = {'title': title, 'text': curs.fetchall()[0][0], 'contributor': contributors_dict}
+    jsondata.append(jd)
 curs.execute("drop table history")
 conn.commit()
+conn.close()
+with open("data.json", "w", encoding="utf-8") as f:
+    f.write(json.dumps(jsondata))
