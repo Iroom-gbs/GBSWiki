@@ -621,7 +621,7 @@ function do_onmark_macro_render(data, data_js) {
             
             var date_end = Math.floor((date_now - date_old) / (24 * 60 * 60 * 1000));
             
-            return date_end > 0 ? '+' + date_end : date_end;
+            return (date_end > 0 ? '+' : '') + date_end;
         } else if(x_1 === 'age') {
             var date_old = new Date(x_2);
             var date_now = new Date(do_return_date());
