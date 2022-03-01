@@ -188,25 +188,25 @@ function do_onmark_heading_render(
         var heading_data_text = heading_data[3].replace(/=+$/, '');
         heading_data_text = heading_data_text.replace(/#$/, '');
         ading_data_text = heading_data_text.replace(/ $/, '');
-        
+
         toc_data += '' +
             '<span style="margin-left: ' + String((heading_level_string.match(/\./g).length - 1) * 10) + 'px;">' +
-                '<a href="#s-' + heading_level_string_no_end + '">' + 
+                '<a href="#s-' + heading_level_string_no_end + '">' +
                     heading_level_string + ' ' +
-                '</a> ' + 
+                '</a> ' +
                 '<span id="toc_text_' + heading_level_string_no_end + '"></span>' +
             '</span>' +
             '\n' +
         ''
         data_js += 'document.getElementById("toc_text_' + heading_level_string_no_end + '").innerHTML = document.getElementById("heading_text_' + heading_level_string_no_end + '").innerText;\n';
-        
-        data = data.replace(heading_re, 
+
+        data = data.replace(heading_re,
             '\n' +
             (toc_n === 1 ? '' : '</div>') +
-            '<h' + heading_level + ' class="render_heading_text">' + 
-                '<a href="#toc" id="s-' + heading_level_string_no_end + '">' + heading_level_string + '</a> ' + 
+            '<h' + heading_level + ' class="render_heading_text">' +
+                '<a href="#toc" id="s-' + heading_level_string_no_end + '">' + heading_level_string + '</a> ' +
                 '<span id="heading_text_' + heading_level_string_no_end + '">' +
-                    heading_data_text + 
+                    heading_data_text +
                 '</span> ' +
                 '<a id="edit_load_' + String(toc_n) + '" ' +
                     'style="font-size: 70%;"' +
@@ -220,13 +220,13 @@ function do_onmark_heading_render(
             '<end_point>\n'
        );
     }
-    
+
     if(toc_data !== '') {
         toc_data += '</div>';
 
         data = do_end_br_replace(data) + '</div>';
     }
-    
+
     var toc_auto_add = data.match(/\[(?:목차|toc)\(no\)\]/);
     var toc_re = /\[(?:toc|목차)\]/g;
     if(toc_auto_add) {
@@ -236,24 +236,24 @@ function do_onmark_heading_render(
             data = data.replace(/(<h[1-6] (?:[^>]+)>)/, '<div id="auto_toc">' + toc_data + '</div>$1');
         }
     }
-    
+
     data = data.replace(toc_re, toc_data);
-    
+
     return [data, data_js];
 }
 
 function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowiki, data_wiki_set) {
     var num_link = 0;
-    
+
     var category_data = '';
-    
+
     var category_re = /^(분류|category):/i;
     let inter_re = /^inter:([^:]+):/i;
     let out_link_re = /^http(s)?:\/\//i;
     var file_re = /^(파일|file|외부|out):/i;
-    
+
     var link_re = /\[\[(((?!\[\[|\]\]).)+)\]\]/;
-    
+
     while(data.match(link_re)) {
         data = data.replace(link_re, function(x, x_1) {
             var link_split = x_1.split('|');
@@ -274,7 +274,7 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                     file_name = file_type.slice(0, file_type.length - 1).join('.');
                     file_type = file_type[file_type.length - 1];
 
-                    var file_src = do_url_change(file_name) + '.' + file_type;       
+                    var file_src = do_url_change(file_name) + '.' + file_type;
                     var file_alt = file_name + '.' + file_type;
                     var file_exist = 1;
                 } else {
@@ -292,7 +292,7 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                     var file_set_name = file_set[i].split('=');
                     var file_set_data = file_set_name[1];
                     file_set_name = file_set_name[0];
-                    
+
                     if(file_set_data) {
                         if(file_set_name === 'width') {
                             file_style += 'width:' + do_px_add(file_set_data) + ';';
@@ -313,26 +313,26 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                 }
 
                 return '' +
-                    '<span style="' + file_align + '">' + 
+                    '<span style="' + file_align + '">' +
                         '<span  style="' + file_bgcolor + '" ' +
                                 'class="' + name_include + 'file_finder" ' +
                                 'under_style="' + file_style + '" ' +
                                 'under_alt="' + file_alt + '" ' +
                                 'under_src="' + file_src + '" ' +
                                 'under_href="' + (file_exist === 0 ? "out_link" : '/upload?name=' + do_url_change(file_name)) + '">' +
-                        '</span>' + 
+                        '</span>' +
                     '</span>' +
                 ''
             } else if(link_real.match(category_re)) {
                 var category_link = link_real.replace(category_re, '');
 
                 data_js += '' +
-                    'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].href = ' + 
+                    'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].href = ' +
                         '"/w/category:' + do_url_change(category_link) + '";' +
                     '\n' +
                 '';
                 data_js += '' +
-                    'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].title = ' + 
+                    'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].title = ' +
                         '"' + do_js_safe_change(do_xss_change('category:' + category_link)) + '";' +
                     '\n' +
                 '';
@@ -357,7 +357,7 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                     }
 
                     data_js += '' +
-                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].' + var_link_type + ' = ' + 
+                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].' + var_link_type + ' = ' +
                             '"' + do_js_safe_change(do_xss_change(link_real)) + '";' +
                         '\n' +
                     '';
@@ -368,33 +368,33 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                 return  '<a id="out_link" ' +
                             'class="' + name_include + 'link_finder" ' +
                             'target="_blank" ' +
-                            'name="' + name_include + 'set_link_' + num_link_str + '" ' + 
+                            'name="' + name_include + 'set_link_' + num_link_str + '" ' +
                             'title=""' +
                             'href="">' + link_out + '</a>';
             } else if(link_real.match(inter_re)) {
                 let data_inter = link_real.match(inter_re);
-                
+
                 let data_inter_link = '';
                 let data_inter_logo = '';
                 if(data_inter) {
                     if(link_real === link_out) {
                         link_real = link_real.replace(
-                            inter_re, 
+                            inter_re,
                             ''
                         );
-                        
+
                         link_out = link_real;
                     } else {
                         link_real = link_real.replace(
-                            inter_re, 
+                            inter_re,
                             ''
                         );
                     }
-                    
+
                     var data_inter_var = do_link_change(link_real, data_nowiki, 1);
                     var data_inter_link_main = data_inter_var[0];
                     var data_inter_link_sub = data_inter_var[1];
-                        
+
                     let data_inter_get = data_wiki_set['inter_wiki'][data_inter[1]];
                     if(data_inter_get) {
                         data_inter_link = data_inter_get['link'];
@@ -407,14 +407,14 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                     } else {
                         return '';
                     }
-                    
+
                     data_js += '' +
-                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].title = ' + 
+                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].title = ' +
                         '"' + do_js_safe_change(do_xss_change(data_inter[1] + ':' + link_real)) + '";' +
                             '\n' +
                     '';
                     data_js += '' +
-                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].href = ' + 
+                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].href = ' +
                         '"' + data_inter_link + do_url_change(data_inter_link_main) + data_inter_link_sub + '";' +
                             '\n' +
                     '';
@@ -422,9 +422,9 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                     return  '<a id="inside" ' +
                                 'class="' + name_include + 'link_finder" ' +
                                 'target="_blank" ' +
-                                'name="' + name_include + 'set_link_' + num_link_str + '" ' + 
+                                'name="' + name_include + 'set_link_' + num_link_str + '" ' +
                                 'title=""' +
-                                'href="">' + data_inter_logo + link_out + '</a>'; 
+                                'href="">' + data_inter_logo + link_out + '</a>';
                 } else {
                     return '';
                 }
@@ -435,11 +435,11 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                     link_real = link_real.replace(/^\.\.\//, '');
                     link_real = name_doc.replace(/\/[^/]+$/, '') + (link_real !== '' ? '/' + link_real : '');
                 }
-                
+
                 var link_data_var = do_link_change(link_real, data_nowiki, 0);
                 var link_main = link_data_var[0];
                 var link_sub = link_data_var[1];
-                
+
                 let link_id = "real_normal_link"
 
                 var i = 0;
@@ -458,7 +458,7 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
                     }
 
                     data_js += '' +
-                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].' + var_link_type + ' = ' + 
+                        'document.getElementsByName("' + name_include + 'set_link_' + num_link_str + '")[0].' + var_link_type + ' = ' +
                             '"' + var_link_data + '";' +
                         '\n' +
                     '';
@@ -474,7 +474,7 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
             }
         });
     }
-    
+
     data = data.replace(/<link_s>/, '[[');
     data = data.replace(/<link_e>/, ']]');
 
@@ -484,10 +484,10 @@ function do_onmark_link_render(data, data_js, name_doc, name_include, data_nowik
         } else {
             category_data = '<div style="display: none;" id="cate_all"><div id="cate">Category : ' + category_data;
         }
-        
+
         category_data = category_data.replace(/\| $/, '') + '</div></div>';
     }
-    
+
     return [data, data_js, category_data];
 }
 
@@ -501,26 +501,26 @@ function do_onmark_footnote_render(data, name_include) {
         if(!footnote_data) {
             break;
         }
-        
+
         if(!footnote_data[3]) {
             if(!footnote_data[2]) {
                 var footnote_line_data = '';
             } else {
                 var footnote_line_data = footnote_data[2];
             }
-            
+
             if(!footnote_data[1]) {
                 var footnote_name = String(i);
             } else {
                 var footnote_name = footnote_data[1];
             }
-            
+
             if(!footnote_all_data[footnote_name]) {
                 footnote_all_data[footnote_name] = footnote_line_data;
             }
 
             footnote_line_data = footnote_all_data[footnote_name];
-            
+
             footnote_end_data += '' +
                 '<li>' +
                     '<a href="javascript:do_open_foot(\'' + name_include + '\', \'fn-' + String(i) + '\', 1);" ' +
@@ -537,55 +537,63 @@ function do_onmark_footnote_render(data, name_include) {
                     '</a>' +
                 '</sup><span id="' + name_include + 'dfn-' + String(i) + '"></span>' +
            '');
-            
+
             i += 1;
         } else {
             if(footnote_end_data !== '') {
-                footnote_end_data = '<ul id="footnote_data">' + footnote_end_data + '</ul>';   
+                footnote_end_data = '<ul id="footnote_data">' + footnote_end_data + '</ul>';
             }
-            
-            data = data.replace(footnote_re, footnote_end_data);    
+
+            data = data.replace(footnote_re, footnote_end_data);
             footnote_end_data = '';
         }
     }
-    
+
     if(footnote_end_data !== '') {
         data = do_end_br_replace(data) + '<ul id="footnote_data">' + footnote_end_data + '</ul>';
     }
-    
+
     return data;
 }
 
 function do_onmark_macro_render(data, data_js) {
     data = data.replace(/\[([^[\](]+)\(((?:(?!\)\]).)+)\)\]/g, function(x, x_1, x_2) {
         x_1 = x_1.toLowerCase();
-        if(x_1 === 'youtube' || x_1 === 'kakaotv' || x_1 === 'nicovideo' || x_1 === 'navertv') {
+        if(x_1 === 'youtube' || x_1 === 'kakaotv' || x_1 === 'nicovideo' || x_1 === 'navertv' || x_1 === 'vimeo' || x_1 === 'twitchclip' || x_1 === 'twitchchannel' || x_1 === 'twitchvideo') {
             var video_code = x_2.match(/^([^,]+)/);
             video_code = video_code ? video_code[1] : '';
-            
+
             var video_width = x_2.match(/,(?: *)width=([0-9]+)/);
             video_width = video_width ? (video_width[1] + 'px') : '640px';
-            
+
             var video_height = x_2.match(/,(?: *)height=([0-9]+)/);
             video_height = video_height ? (video_height[1] + 'px') : '360px';
-            
+
             if(x_1 === 'youtube') {
                 var video_start = x_2.match(/,(?: *)start=([0-9]+)/);
                 video_start = video_start ? ('?start=' + video_start[1]) : '';
-                
+
                 video_code = video_code.replace(/^https:\/\/www\.youtube\.com\/watch\?v=/, '');
                 video_code = video_code.replace(/^https:\/\/youtu\.be\//, '');
-                
+
                 var video_src = 'https://www.youtube.com/embed/' + video_code + video_start
             } else if(x_1 === 'kakaotv') {
                 video_code = video_code.replace(/^https:\/\/tv\.kakao\.com\/channel\/9262\/cliplink\//, '');
                 video_code = video_code.replace(/^http:\/\/tv\.kakao\.com\/v\//, '');
-                
+
                 var video_src = 'https://tv.kakao.com/embed/player/cliplink/' + video_code +'?service=kakao_tv'
             } else if(x_1 === 'nicovideo') {
                 var video_src = 'https://embed.nicovideo.jp/watch/' + video_code
-            } else {
+            } else if(x_1 === 'navertv') {
                 var video_src = 'https://tv.naver.com/embed/' + video_code
+            } else if(x_1 === 'vimeo') {
+                var video_src = 'https://player.vimeo.com/video/' + video_code
+            } else if(x_1 === 'twitchchannel') {
+                var video_src = 'https://player.twitch.tv/?channel=' + video_code + '&parent=' + window.location.hostname
+            } else if(x_1 === 'twitchclip') {
+                var video_src = 'https://clips.twitch.tv/embed?clip=' + video_code + '&parent=' + window.location.hostname
+            } else if(x_1 === 'twitchvideo') {
+                var video_src = 'https://player.twitch.tv/?video=' + video_code + '&parent=' + window.location.hostname
             }
             
             return '<iframe style="width: ' + video_width + '; height: ' + video_height + ';" src="' + video_src + '" frameborder="0" allowfullscreen></iframe>';
