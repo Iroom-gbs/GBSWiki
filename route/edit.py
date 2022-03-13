@@ -10,7 +10,7 @@ def edit(name = 'Test', name_load = 0, section = 0):
         if acl_check(name) == 1:
             return re_error('/ban')
 
-        if name == '':
+        if name == '' or name == '%20':
             return custom_re_error('/no_input')
 
         curs.execute(db_change("select id from history where title = ? order by id + 0 desc"), [name])
