@@ -112,6 +112,8 @@ def custom_re_error(error_code):
         data = '이미 문서가 존재합니다.'
     elif error_code == '/email':
         data = '이메일 인증이 필요합니다.'
+    elif error_code == '/email_filter':
+        data = '학교 이메일(gbs.*@ggh.goe.go.kr)만 사용 가능합니다. 학생/교사 중 이메일이 없는 경우 관리자에게 별도 문의하세요.'
     return easy_minify(flask.render_template(skin_check(),
                                              imp=[load_lang('error'), wiki_set(1), wiki_custom(), wiki_css([0, 0])],
                                              data='' + \

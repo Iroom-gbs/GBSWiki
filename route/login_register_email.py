@@ -1,3 +1,4 @@
+from custom_route.tools import custom_re_error
 from .tool.func import *
 
 def login_register_email_2(conn):
@@ -10,6 +11,8 @@ def login_register_email_2(conn):
         flask.session['reg_key'] = load_random_key(32)
 
         user_email = flask.request.form.get('email', '')
+        if not user_email.startswith('gbs.'):
+            return custom_re_error('/email_filter')
         email_data = re.search(r'@([^@]+)$', user_email)
         if email_data:
             email_data = email_data.group(1)

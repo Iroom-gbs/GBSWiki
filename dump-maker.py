@@ -1,13 +1,19 @@
 import sqlite3
 import json
+from shutil import copyfile
 
-conn = sqlite3.connect('./data.db')
+print("Copping...")
+copyfile('./data.db', './dump.db')
+
+conn = sqlite3.connect('./dump.db')
 curs = conn.cursor()
 
 curs.execute("SELECT name FROM sqlite_master WHERE type='table';")
 for i in curs.fetchall():
     if i[0]!='data' and i[0]!='acl' and i[0]!='history':
         curs.execute(f"drop table {i[0]}")
+
+print("Dropped Tables")
 
 curs.execute("select title from data")
 titles = curs.fetchall()
@@ -32,6 +38,8 @@ curs.execute("create table contributor (title longtext, name longtext)")
 curs.execute("select title from data")
 titles = curs.fetchall()
 
+print("DB Generated")
+
 jsondata = []
 for i in titles:
     title = i[0]
@@ -47,5 +55,5 @@ for i in titles:
 curs.execute("drop table history")
 conn.commit()
 conn.close()
-with open("data.json", "w", encoding="utf-8") as f:
-    f.write(json.dumps(jsondata))
+with open("dump.json", "w", encoding="utf-8") as f:
+    f.write(json.dumps(jsondata, ensure_ascii=False))

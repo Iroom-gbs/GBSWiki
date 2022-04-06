@@ -1,3 +1,4 @@
+from custom_route.tools import custom_re_error
 from .tool.func import *
 
 def user_setting_email_2(conn):
@@ -14,6 +15,8 @@ def user_setting_email_2(conn):
 
         user_email = flask.request.form.get('email', '')
         email_data = re.search(r'@([^@]+)$', user_email)
+        if not user_email.startswith('gbs.'):
+            return custom_re_error('/email_filter')
         if email_data:
             curs.execute(db_change("select html from html_filter where html = ? and kind = 'email'"), [email_data.group(1)])
             if not curs.fetchall():
