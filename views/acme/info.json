@@ -1,0 +1,6 @@
+{
+    "name" : "ACME",
+    "skin_ver" : "v1.1.8",
+    "require_ver" : "3500101",
+    "info_link" : "https://raw.githubusercontent.com/openNAMU/openNAMU-Skin-ACME/master/info.json"
+}

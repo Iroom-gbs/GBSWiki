@@ -18,10 +18,11 @@ def generate_student_doc(conn, name, gen):
         return custom_re_error('/custom/템플릿이 없습니다.')
     content = template[0][0]
     content = content.replace('(이름)', name).replace('(기수)', gen).replace('[[분류:템플릿]]', '')
-    edit_doc(conn, name + "(" + gen + ")", content, "", "학생 문서 생성")
+    edit_doc(conn, name + "(" + gen + ")", content, "학생 문서", "학생 문서")
 
     # ACL 설정
     set_acl(conn, name + "(" + gen + ")", "학생 문서", "email", "email", "email")
+    set_close(conn, name + "(" + gen + ")", 1)
 
     # 기수 문서에 추가
     curs.execute(db_change("select data from history where title = ? order by id + 0 desc"), [gen])
@@ -35,7 +36,8 @@ def generate_student_doc(conn, name, gen):
         content = content.replace('(이름)((기수)기)', name + "(" + gen + ")").replace('[[분류:템플릿]]', '')
 
         edit_doc(conn, gen, content, "학생 문서", "학생 문서")
-        set_acl(curs, gen, "학생 문서", "email", "email", "email", "1")
+        set_acl(conn, gen, "학생 문서", "email", "email", "email")
+        set_close(conn, gen, 1)
     else:
         gen_doc = gen_doc[0][0]
         student_list = gen_doc.split("'''가나다순'''으로 작성한다.")[1].split("\n")
@@ -43,7 +45,8 @@ def generate_student_doc(conn, name, gen):
         student_list.sort()
         content = gen_doc.split("'''가나다순'''으로 작성한다.")[0] + "'''가나다순'''으로 작성한다." + "\n".join(student_list)
         edit_doc(conn, gen, content, "학생 문서", "학생 문서")
-        set_acl(curs, gen, "학생 문서", "email", "email", "email", "1")
+        set_acl(conn, gen, "학생 문서", "email", "email", "email")
+        set_close(conn, gen, 1)
     curs.execute(db_change("delete from gbswiki where name='student_gen' and p1=? and p2=?"),
                  [name, gen])
 

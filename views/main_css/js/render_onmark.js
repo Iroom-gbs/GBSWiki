@@ -596,7 +596,7 @@ function do_onmark_macro_render(data, data_js) {
                 var video_src = 'https://player.twitch.tv/?video=' + video_code + '&parent=' + window.location.hostname
             }
             
-            return '<iframe style="width: ' + video_width + '; height: ' + video_height + ';" src="' + video_src + '" frameborder="0" allowfullscreen></iframe>';
+            return '<iframe style="width: ' + video_width + '; height: ' + video_height + ';" src="' + video_src + '" frameborder="0" allowfullscreen autoplay="false"></iframe>';
         } else if(x_1 === 'anchor') {
             return '<span id="' + x_2 + '"></span>';
         } else if(x_1 === 'ruby') {
