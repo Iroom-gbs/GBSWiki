@@ -1,0 +1,152 @@
+@media (max-width: 767px) {
+    .navbar-toggle {
+        margin-top: 12px;
+    }
+
+    .head-section .navbar-collapse  ul.navbar-nav {
+        float: none;
+        margin-left: 0;
+    }
+
+    .head-section .nav li a:hover,
+    .head-section .nav li a:focus,
+    .head-section .nav li a.dropdown-toggle:focus,
+    .head-section .nav li a.dropdown-toggle .dropdown-menu li a:hover,
+    .head-section .nav li.active a,
+    .head-section .dropdown-menu li a:hover {
+        color: #fff !important;
+    }
+
+    .head-section .navbar-nav > li {
+        padding: 0;
+        margin-bottom: 2px;
+    }
+
+    .head-section .nav li ul.dropdown-menu li a {
+        margin-left: 0px;
+        color: #999!important; ;
+    }
+
+    .head-section .nav li .dropdown-menu li a:hover, .head-section .nav li .dropdown-menu li.active a {
+        color: rgb(44, 62, 80) !important;
+    }
+
+    .navbar-brand {
+        margin-top: 15px;
+    }
+
+    .btn, .form-control {
+        margin-bottom: 10px;
+    }
+}
+
+
+@media (max-width: 479px) {
+    .head-section .navbar {
+        min-height: 60px;
+    }
+
+    .navbar-toggle {
+        margin-right: 0px;
+    }
+
+    .head-section .nav li .dropdown-menu li a:hover {
+        color: rgb(44, 62, 80);
+    }
+
+    .navbar-brand {
+        margin-top: 10px !important;
+        float: left !important;
+        line-height: 40px;
+    }
+}
+
+ul {
+    padding-left: 0;
+}
+
+.btn-primary {
+    background-color: #41cac0;
+    border-color: #41cac0;
+    color: #FFFFFF;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #495d74;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+label, span, body, strong, b, div, h1, h2, h3, h4, h5, h6, input { 
+    font-family: "맑은 고딕", "sans-serif"; 
+}
+
+pre { 
+    font-family: "monospace"; 
+    white-space: pre-wrap;
+    overflow: hidden;
+}
+
+html {
+    background-color: rgb(44, 62, 80);
+}
+
+textarea {
+    resize: vertical;
+}
+
+input {
+    width: 100%;
+}
+
+.head-section .nav li a, .head-section .nav li.active ul.dropdown-menu li a {
+    color: #373A3C;
+}
+
+@media (min-width: 768px){
+    .head-section .nav li .dropdown-menu {
+        border: 1px solid rgb(204,204,204);
+        margin-top: -20px;
+    }
+}
+
+@media (max-width: 767px){
+    .head-section .nav li .dropdown-menu {
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 767px){
+    #searchInput {
+        width: 90%;
+    }
+
+    @media (max-width: 479px){
+        table {
+            min-width: 100%;
+        }
+    }
+    
+    #searchform {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 991px){
+    @media (min-width: 768px){
+        #mobile {
+            display: none;
+        }
+    }
+}
+
+@media (min-width: 768px){
+    #searchInput {
+        width: 180px;
+    }
+
+    #right-search {
+        float: right;
+    }
+}

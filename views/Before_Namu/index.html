@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{imp[0]}} - {{imp[1][0]}}</title>
+        <link rel="stylesheet" href="/views/before_namu/css/dough.css?ver=2">
+        <link rel="stylesheet" href="/views/before_namu/css/jquery-ui.min.css?ver=1">
+        <link rel="stylesheet" href="/views/before_namu/css/layout.css?ver=2">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        {{imp[3][3]|safe}}
+        <link rel="stylesheet" href="/views/before_namu/css/plus.css?ver=9">
+        <script src="/views/before_namu/js/jquery.min.js?ver=1"></script>
+        <script src="/views/before_namu/js/jquery-ui.min.js?ver=1"></script>
+        <script src="/views/before_namu/js/dough.js?ver=1"></script>
+        {{imp[1][5]|safe}}
+        {{imp[2][3]|safe}}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div class="container wiki-main">
+            <header class="nav_top">
+                <span id="logo_name">
+                    <a href="/" class="wiki-logo">{{imp[1][4]|safe}}</a>
+                </span>
+                <ul>
+                    <li>
+                        <a href="/recent_changes" title="RecentChanges">
+                            <span class="icon ion-compass"></span>
+                            <span class="icon-title">&nbsp;&nbsp;{{'recent_change'|load_lang}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/recent_discuss" title="RecentDiscuss">
+                            <span class="icon ion-android-textsms"></span>
+                            <span class="icon-title">&nbsp;&nbsp;{{'recent_discussion'|load_lang}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/other" title="Other">
+                            <span class="icon ion-information-circled"></span>
+                            <span class="icon-title">&nbsp;&nbsp;{{'other'|load_lang}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/skin_set" title="Setting">
+                            <span class="icon ion-settings"></span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="f_r" id="margin_plus">
+                    <li>
+                        <a rel="nofollow" id="userIcon" href="/user" title="User">
+                            {% if imp[2][4] != '' %}
+                                <img src="https://www.gravatar.com/avatar/{{imp[2][4]|md5_replace}}?s=30">
+                            {% else %}
+                                {% if imp[2][2] == 1 %}
+                                    {% if imp[2][8] != 0 %}
+                                        <span class="icon ion-person-stalker"></span>
+                                    {% else %}
+                                        <span class="icon ion-person"></span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="icon ion-close-round"></span>
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </li>
+                </ul>
+                <form method="post" action="/goto" role="search">
+                    <div class="combo f_r search-box">
+                        <input type="text" id="searchInput" size="27" placeholder="Search" name="search" class="d_form ui-autocomplete-input" tabindex="1" autocomplete="off">
+                        <button type="submit" formaction="/goto" style="display: none;"></button>
+                        <button type="submit" id="searchBtn" class="d_btn" formaction="/search">
+                            <span class="icon ion-search"></span>
+                        </button>
+                        <button type="submit" id="goBtn" class="d_btn" formaction="/goto">
+                            <span class="icon ion-arrow-right-c"></span>
+                        </button>
+                    </div>
+                </form>
+                <ul class="f_r">
+                    <li><a href="/random" title="Random"><span class="icon ion-shuffle"></span></a></li>
+                </ul>
+                <form method="post" action="/goto" role="search">
+                    <div class="combo small-search-box">
+                        <input autocomplete="off" id="smallSearchInput" placeholder="Search" name="search" class="d_form ui-autocomplete-input" type="text" tabindex="1">
+                        <button type="submit" formaction="/goto" style="display: none;"></button>
+                        <button type="submit" id="smallSearchBtn" class="d_btn" formaction="/search">
+                            <span class="icon ion-search"></span>
+                        </button>
+                        <button type="submit" id="smallGoBtn" class="d_btn" formaction="/goto">
+                            <span class="icon ion-arrow-right-c"></span>
+                        </button>
+                    </div>
+                </form>
+            </header>
+            <article class="clear">
+                {% if menu != 0 %}
+                    <ul class="tab_bar type_small doc-menu" data-tab-event="click">
+                        {% for sub_d in menu|reverse %}
+                            {% if sub_d|length > 2 and sub_d[2] == 1 %}
+                                <li class="f_r"><a id="menu_link" href="/{{sub_d[0]}}" id="topic_color">{{sub_d[1]}}</a></li>
+                            {% else %}
+                                <li class="f_r"><a id="menu_link" href="/{{sub_d[0]}}">{{sub_d[1]}}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div id="safe-date">
+                    <p class="wiki-edit-date">
+                        {% if imp[3][1] != 0 %}
+                            {{'last_edit_time'|load_lang}} : {{imp[3][1]}}
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="wiki-content-top">
+                    <span id="dec_title">
+                        <h1 class="title">
+                            <span class="change_space">{{imp[0]}}</span>
+                            {% if imp[3][0] != 0 %}
+                                <sub>{{imp[3][0]}}</sub>
+                            {% endif %}
+                        </h1>
+                    </span>
+                </div>
+                <div class="wiki-content" id="dec_con">
+                    {{data|safe}}
+                </div>
+            </article>
+            <footer>
+                <div id="bottom">
+                    {{imp[1][1]|safe}} |
+                    <a href="https://github.com/2DU/openNAMU">openNAMU</a> |
+                    <a href="/views/before_namu/license.html">License</a>
+                </div>
+            </footer>
+            <ul class="nav-controls">
+                <li>
+                    <a href="#top" class="go-top-btn">
+                        <span class="ion-arrow-up-b"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#bottom" class="go-bottom-btn">
+                        <span class="ion-arrow-down-b"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

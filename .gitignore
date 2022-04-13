@@ -23,13 +23,7 @@ robots.txt
 
 goorm.manifest
 
-views/liberty
-views/buma
-views/before_namu
-views/acme
-views/sl_open
-views/nitori
 
 .DS_Store
 sitemap.xml
-sitemap_0.xml
+sitemap_0.xml!/views/liberty1/

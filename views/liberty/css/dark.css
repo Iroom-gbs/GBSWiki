@@ -1,0 +1,123 @@
+.Liberty, body {
+    background-color: black;
+}
+
+.Liberty .content-wrapper .liberty-content .liberty-content-header {
+    background-color: black;
+}
+
+.Liberty .content-wrapper .liberty-content .liberty-content-header .title>h1 {
+    color: #ddd;
+}
+
+.Liberty .content-wrapper .liberty-content .liberty-content-main {
+    background-color: black;
+    color: #ddd;
+}
+
+.Liberty .content-wrapper .liberty-footer {
+    background-color: black;
+    color: #ddd;
+}
+
+.Liberty .nav-wrapper {
+    background-color: #014841;
+}
+
+.Liberty .nav-wrapper .navbar .navbar-nav .nav-item .nav-link:focus, .Liberty .nav-wrapper .navbar .navbar-nav .nav-item .nav-link:hover {
+    background-color: #023e98;
+}
+
+.Liberty .content-wrapper .liberty-content .liberty-content-header .content-tools .tools-btn:active, .Liberty .content-wrapper .liberty-content .liberty-content-header .content-tools .tools-btn:focus, .Liberty .content-wrapper .liberty-content .liberty-content-header .content-tools .tools-btn:hover {
+    background-color: #014841;
+}
+
+a.btn.btn-secondary.tools-btn {
+    background: black;
+    color: #ddd;
+}
+
+button.btn.btn-secondary.tools-btn.dropdown-toggle {
+    background: black;
+    color: #ddd;    
+}
+
+.dropdown-menu.dropdown-menu-right {
+    background: black;
+}
+
+a.dropdown-item {
+    color: #ddd;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #023e98;
+}
+
+.Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-header .nav .nav-item .nav-link.active, .Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-header .nav .nav-item .nav-link:active, .Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-header .nav .nav-item .nav-link:focus, .Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-header .nav .nav-item .nav-link:hover {
+    background: black;
+    color: #ddd;    
+}
+
+.Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-content .live-recent-list .recent-item {
+    color: #ddd;
+}
+
+ul#live-recent-list {
+    background-color: black;
+}
+
+.Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-footer {
+    background-color: black;
+}
+
+.Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-footer .label {
+    background-color: #014841;
+}
+
+.Liberty .content-wrapper .liberty-sidebar .liberty-right-fixed .live-recent .live-recent-footer .label:hover {
+    background-color: #023e98;
+}
+
+.dropdown-menu {
+    background-color: black;
+}
+
+.liberty-content-main.wiki-article a {
+    color: #E69720;
+}
+
+.w[data-v-ce090af2] del {
+    color: #aaa;
+}
+
+.Liberty .nav-wrapper .navbar .form-inline .form-control {
+    background-color: black;
+    color: #ddd;
+}
+
+.Liberty .nav-wrapper .navbar .form-inline .form-control::placeholder {
+    color: #ddd;
+}
+
+.Liberty .nav-wrapper .navbar .form-inline .btn {
+    background-color: black;
+    color: #ddd;
+}
+
+.Liberty .nav-wrapper .navbar .form-inline .btn:focus, .Liberty .nav-wrapper .navbar .form-inline .btn:hover {
+    background-color: #014841;
+    border-color: #ddd;
+}
+
+div#bottom a {
+    color: #E69720;
+}
+
+table {
+    background-color: black;
+}
+
+button:hover {
+    background-color: #3c3c3c;
+}
