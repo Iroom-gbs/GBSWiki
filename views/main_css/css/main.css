@@ -35,13 +35,13 @@ td {
 
 /* 링크 */
 a {
-    color: dodgerblue;
+    color: #9d3828;
     
     text-decoration: none;
 }
 
 #not_thing {
-    color: red;
+    color: #cf7b7b;
 }
 
 #inside, #out_link, #out_link::before {
