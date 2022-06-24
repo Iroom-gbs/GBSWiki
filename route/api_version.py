@@ -1,18 +1,28 @@
 from .tool.func import *
 
-def api_version(version_list):
-    with get_db_connect() as conn:
-        curs = conn.cursor()
+def api_version_2(conn, r_ver, c_ver):
+    curs = conn.cursor()
 
-        curs.execute(db_change('select data from other where name = "update"'))
-        up_data = curs.fetchall()
-        up_data = up_data[0][0] if up_data and up_data[0][0] in ['stable', 'beta', 'dev'] else 'stable'
+    n_ver = ''
+    data = None
 
-        json_data = {
-            "version" : version_list['beta']['r_ver'], 
-            "db_version" : version_list['beta']['c_ver'],
-            "skin_version" : version_list['beta']['s_ver'],
-            "build" : up_data
-        }
+    curs.execute(db_change('select data from other where name = "update"'))
+    up_data = curs.fetchall()
+    up_data = up_data[0][0] if up_data and up_data[0][0] in ['stable', 'beta', 'dev'] else 'stable'
 
-        return flask.jsonify(json_data)
+    try:
+        data = urllib.request.urlopen('https://raw.githubusercontent.com/2du/openNAMU/beta/version.json')
+    except:
+        data = None
+
+    if data and data.getcode() == 200:
+        try:
+            json_data = json.loads(data.read().decode())
+            if up_data in json_data:
+                n_ver = json_data[up_data]['r_ver']
+        except:
+            pass
+
+    json_data = { "version" : r_ver, "db_version" : c_ver, "lastest_version" : n_ver  }
+
+    return flask.jsonify(json_data)
