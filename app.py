@@ -1,6 +1,7 @@
 # Init
 import os
 import re
+from datetime import timedelta
 
 from route.tool.func import *
 # from route import *
@@ -868,7 +869,7 @@ app.route('/restart', methods = ['POST', 'GET'])(main_sys_restart)
 app.route('/update', methods = ['POST', 'GET'])(main_sys_update)
 
 app.errorhandler(404)(main_error_404)
-
+app.permanent_session_lifetime = timedelta(hours=12)
 if __name__ == "__main__":
     waitress.serve(
         app,
