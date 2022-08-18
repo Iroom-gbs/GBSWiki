@@ -1,0 +1,255 @@
+/* 기본 전체 옵션 */
+body, html, video, table, iframe, input, textarea, img, hr, blockquote, pre, iframe, .table_safe {
+    max-width: 100%;
+}
+
+body {
+    word-break: break-all;
+    
+    overflow: auto;
+}
+
+/* 텍스트 필드 */
+textarea, input {
+    width: 100%;
+}
+
+input {
+    box-sizing: border-box;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    width: auto;
+}
+
+/* 테이블 */
+table {
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid gainsboro;
+    
+    padding: 5px 10px;
+}
+
+/* 링크 */
+a {
+    color: #ff8800;
+    
+    text-decoration: none;
+}
+
+#not_thing {
+    color: #cf7b7b;
+}
+
+#inside, #out_link, #out_link::before {
+    color: green;
+}
+
+#out_link::before {
+    content: '🅴';
+    
+    font-weight: lighter;
+    
+    background: transparent;
+}
+
+#include_link {
+    display: none;
+}
+
+.hidden_link {
+    filter: blur(3px);
+}
+
+.hidden_link:hover {
+    filter: none;
+}
+
+/* 리스트 */
+.inside_ul li {
+    margin-left: 20px;
+}
+
+/* 토론 관련 */
+#toron {
+    width: 100%;
+}
+
+#toron_color_green {
+    background: palegreen;
+}
+
+#toron_color_blue {
+    background: paleturquoise;
+}
+
+#toron_color_red {
+    background: palevioletred;
+}
+
+#toron_color_normal {
+    background: palegoldenrod;
+}
+
+#toron_color_grey {
+    background: gainsboro;
+}
+
+#toron_color_not {
+    display: none;
+}
+
+#topic_scroll {
+    max-height: 500px;
+    
+    overflow: scroll;
+    -ms-overflow-style: none;
+
+    scrollbar-width: none;
+}
+
+#topic_scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.topic_content {
+    height: 200px;
+}
+
+/* 위키 내용 관련 */
+#toc {
+    border: 1px solid gainsboro;
+    padding: 20px;
+    
+    width: fit-content;
+    width: -moz-fit-content;
+    
+    clear: both;
+    
+    margin-top: 10px;
+}
+
+#cate, pre, #redirect {
+    border: 1px solid gainsboro;
+    
+    padding: 10px;
+}
+
+#cate {
+    margin-top: 20px;
+}
+
+pre {    
+    white-space: pre-wrap;
+}
+
+#toc_title {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    table {
+        min-width: 100%;
+    }
+    
+    .table_safe {
+        min-width: 100%;
+    }
+}
+
+.content {
+    height: 500px;
+}
+
+.spead_footnote {
+    color: #555;
+    background-color: #efefef;
+    
+    border: 1px solid #cecece;
+}
+
+#footnote_data {
+    border-top: 1px solid gainsboro;
+    
+    padding-top: 10px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid gainsboro;
+}
+
+.render_content {
+    white-space: pre-wrap;
+    
+    line-break: anywhere;
+}
+
+blockquote {
+    padding: 15px 40px 15px 15px;
+    margin: 15px 0 0;
+
+    display: table;
+
+    border: 2px solid #ccc;
+    border-left: 5px solid black;
+
+    background-image: url('/views/main_css/file/quote.png');
+    background-position: calc(100% - 10px) 10px;
+    background-repeat: no-repeat;
+    background-size: 25px;
+}
+
+/* 취소선 */
+s, strike, del {
+    color: gray;
+}
+
+s:hover, strike:hover, del:hover {
+    color: gray;
+    background-color: gainsboro;
+    
+    text-decoration: none;
+}
+
+/* 최근 변경 관련 테이블 */
+#main_table_set {
+    width: 100%;
+    
+    text-align: center;
+}
+
+#main_table_width {
+    width: 33.3%;
+}
+
+#main_table_width_half {
+    width: 50%;
+}
+
+#main_table_width_quarter {
+    width: 25%;
+}
+
+#main_table_top_tr {
+    background: aquamarine;
+}
+
+/* 기타 */
+.main_hr {
+    border: none;
+    
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#admin_log_search {
+    width: 100px;
+}
+
+.change_space {
+    white-space: pre-line;
+}
