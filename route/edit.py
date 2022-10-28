@@ -220,7 +220,6 @@ def edit(name = 'Test', name_load = 0, section = 0):
                         <input  placeholder="''' + load_lang('why') + '''" 
                                 name="send">
                         <hr class="main_hr">
-                        <label><input  type="checkbox" name="close" value="1"''' + close + '''>외부인 열람 차단</label>
                         <textarea   style="display: none;" 
                                     id="origin">''' + html.escape(data) + '''</textarea>
                         <textarea   style="display: none;"
