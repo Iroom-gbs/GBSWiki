@@ -133,8 +133,8 @@ def topic(topic_num = 0):
                         <textarea id="textarea_edit_view" class="topic_content" placeholder="''' + topic_text + '''" name="content"></textarea>
                         <hr class="main_hr">
                         ''' + captcha_get() + (ip_warning() if display == '' else '') + '''
-                        <input style="display: none;" name="topic" value="''' + name + '''">
-                        <input style="display: none;" name="title" value="''' + sub + '''">
+                        <input style="display: none;" name="topic" value="''' + html.escape(name) + '''">
+                        <input style="display: none;" name="title" value="''' + html.escape(sub) + '''">
                         <button id="save" type="submit">''' + load_lang('send') + '''</button>
                         <button id="preview" type="button" onclick="load_preview(\'\')">''' + load_lang('preview') + '''</button>
                     </form>
