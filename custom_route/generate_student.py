@@ -163,6 +163,7 @@ def list_student_request_2(conn):
     for i in range(len(names)):
         div += f'<li> {ids[i][0]} | {gens[i][0]} {names[i][0]} | {emails[i][0]} | {times[i][0]} | <a href="/generate_student/accept/{request_ids[i][0]}">수락</a> <a href="/generate_student/delete/{request_ids[i][0]}">삭제</a> </li>'
     div += '</ul>'
+    send_email('hegelty@gbs.wiki', '학생 문서 생성 신청 들어옴', f"ㅈㄱㄴ")
     return easy_minify(flask.render_template(skin_check(),
         imp=['학생문서 생성 신청 목록', wiki_set(), wiki_custom(), wiki_css([0, 0])],
         data=div,
