@@ -2,17 +2,21 @@ from route.tool.func import *
 from custom_route.tools import *
 
 
-def generate_student_doc(conn, name, gen):
+def generate_student_doc(conn, request_id):
     # 학생 문서 생성
-    gen = str(gen) + '기'
-
     curs = conn.cursor()
-    curs.execute(db_change("select id from history where title = ? order by id + 0 desc"), [name + '(' + gen + ')'])
-    doc_ver = curs.fetchall()
-    if doc_ver:
+    curs.execute(db_change("select name, gen from personal_doc where request_id=?"),[request_id])
+    data = curs.fetchall()
+    name = data[0][0]
+    gen = data[0][1]
+    print(gen)
+
+    curs.execute(db_change("select data from data where title = ?"), [name + '(' + gen + ')'])
+    doc = curs.fetchall()
+    if doc:
         return custom_re_error('/already_exist')
 
-    curs.execute(db_change("select data from history where title = ? order by id + 0 desc"), ['템플릿:학생'])
+    curs.execute(db_change("select data from data where title = ?"), ['템플릿:학생'])
     template = curs.fetchall()
     if not template:
         return custom_re_error('/custom/템플릿이 없습니다.')
@@ -25,10 +29,10 @@ def generate_student_doc(conn, name, gen):
     set_close(conn, name + "(" + gen + ")", 1)
 
     # 기수 문서에 추가
-    curs.execute(db_change("select data from history where title = ? order by id + 0 desc"), [gen])
-    gen_doc = curs.fetchall()
-    if not gen_doc:
-        curs.execute(db_change("select data from history where title = ? order by id + 0 desc"), ['템플릿:기수'])
+    curs.execute(db_change("select data from data where title = ?"), [gen])
+    doc = curs.fetchall()
+    if not doc:
+        curs.execute(db_change("select data from data where title = ?"), ['템플릿:기수'])
         template = curs.fetchall()
         if not template:
             return custom_re_error('/custom/템플릿이 없습니다.')
@@ -39,7 +43,7 @@ def generate_student_doc(conn, name, gen):
         set_acl(conn, gen, "학생 문서", "email", "email", "email")
         set_close(conn, gen, 1)
     else:
-        gen_doc = gen_doc[0][0]
+        gen_doc = doc[0][0]
         student_list = gen_doc.split("'''가나다순'''으로 작성한다.")[1].split("\n")
         student_list.append(f'* [[{name + "(" + gen + ")"}]]')
         student_list.sort()
@@ -47,8 +51,7 @@ def generate_student_doc(conn, name, gen):
         edit_doc(conn, gen, content, "학생 문서", "학생 문서")
         set_acl(conn, gen, "학생 문서", "email", "email", "email")
         set_close(conn, gen, 1)
-    curs.execute(db_change("delete from gbswiki where name='student_gen' and p1=? and p2=?"),
-                 [name, gen])
+    curs.execute(db_change("update personal_doc set status = ? where request_id = ?"), [f"accepted({ip_check()}, {get_time()})" ,request_id])
 
     conn.commit()
 
@@ -106,7 +109,16 @@ def request_generate_student_2(conn):
             ''',
             menu=[['manager', load_lang('return')]]
             ))
-    curs.execute(db_change("insert into gbswiki (name, ip, data, p1, p2) values (?, ?, ?, ?, ?)"), ['student_gen', ip, ip + ' | ' + name + '(' + gen + ') | ' + email[0][0] + ' | ' + today, name, gen])
+
+    curs.execute(db_change("select request_id from personal_doc ORDER BY time desc LIMIT 1"))
+    last_request_id = curs.fetchall()
+    if not last_request_id:
+        last_request_id = 0
+    else:
+        last_request_id = last_request_id[0][0]
+
+    curs.execute(db_change("insert into personal_doc (request_id, name, id, email, time, gen, status) values (?, ?, ?, ?, ?, ?, ?)"),
+                 [str(int(last_request_id)+1), name, ip, email[0][0], today, gen, 'pending'])
     conn.commit()
     return redirect('/generate_student/list')
 
@@ -116,25 +128,39 @@ def list_student_request_2(conn):
     ip = ip_check()
     div = ''
     if admin_check(0) != 1:
-        curs.execute(db_change("select data from gbswiki where ip=? and name='student_gen' order by ip + 0 desc"), [ip])
-        request_data = curs.fetchall()
-        curs.execute(db_change("select p1 from gbswiki where ip=? and name='student_gen' order by ip + 0 desc"), [ip])
+        curs.execute(db_change("select request_id from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
+        request_ids = curs.fetchall()
+        curs.execute(db_change("select name from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
         names = curs.fetchall()
-        curs.execute(db_change("select p2 from gbswiki where ip=? and name='student_gen' order by ip + 0 desc"), [ip])
+        curs.execute(db_change("select id from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
+        ids = curs.fetchall()
+        curs.execute(db_change("select email from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
+        emails = curs.fetchall()
+        curs.execute(db_change("select time from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
+        times = curs.fetchall()
+        curs.execute(db_change("select gen from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
         gens = curs.fetchall()
     else:
-        curs.execute(db_change("select data from gbswiki where name='student_gen' order by ip + 0 desc"))
-        request_data = curs.fetchall()
-        curs.execute(db_change("select p1 from gbswiki where name='student_gen' order by ip + 0 desc"))
+        curs.execute(db_change("select request_id from personal_doc where status = 'pending' order by request_id asc"))
+        request_ids = curs.fetchall()
+        print(request_ids)
+        curs.execute(db_change("select name from personal_doc where status = 'pending' order by request_id asc"))
         names = curs.fetchall()
-        curs.execute(db_change("select p2 from gbswiki where name='student_gen' order by ip + 0 desc"))
+        curs.execute(db_change("select id from personal_doc where status = 'pending' order by request_id asc"))
+        ids = curs.fetchall()
+        curs.execute(db_change("select email from personal_doc where status = 'pending' order by request_id asc"))
+        emails = curs.fetchall()
+        curs.execute(db_change("select time from personal_doc where status = 'pending' order by request_id asc"))
+        times = curs.fetchall()
+        curs.execute(db_change("select gen from personal_doc where status = 'pending' order by request_id asc"))
         gens = curs.fetchall()
+
     div += '' + \
-           '생성 요청 수' + ' : ' + str(len(request_data)) + \
+           '생성 요청 수' + ' : ' + str(len(request_ids)) + \
            '<hr class="main_hr">' + \
            '<ul class="inside_ul">'
-    for i in range(len(request_data)):
-        div += f'<li> {request_data[i][0]} | <a href="/generate_student/accept/{names[i][0]}/{gens[i][0]}">수락</a> <a href="/generate_student/delete/{names[i][0]}/{gens[i][0]}">삭제</a> </li>'
+    for i in range(len(names)):
+        div += f'<li> {ids[i][0]} | {gens[i][0]} {names[i][0]} | {emails[i][0]} | {times[i][0]} | <a href="/generate_student/accept/{request_ids[i][0]}">수락</a> <a href="/generate_student/delete/{request_ids[i][0]}">삭제</a> </li>'
     div += '</ul>'
     return easy_minify(flask.render_template(skin_check(),
         imp=['학생문서 생성 신청 목록', wiki_set(), wiki_custom(), wiki_css([0, 0])],
@@ -143,25 +169,24 @@ def list_student_request_2(conn):
     ))
 
 
-def accept_student_request_2(conn, name, gen):
+def accept_student_request_2(conn, request_id):
     if admin_check(0) != 1:
         return re_error('/error/3')
     curs = conn.cursor()
-    curs.execute(db_change("select data from gbswiki where name='student_gen' and p1=? and p2=? order by ip + 0 desc"),[name,gen])
+    curs.execute(db_change("select * from personal_doc where request_id=?"),[request_id])
     if curs.fetchall():
-        return generate_student_doc(conn, name, gen.replace('기',''))
+        return generate_student_doc(conn, request_id)
     else: return custom_re_error('/custom/ 일치하는 요청이 없습니다.')
 
 
-def delete_student_request_2(conn, name, gen):
+def delete_student_request_2(conn, request_id):
     if admin_check(0) != 1:
         return re_error('/error/3')
     curs = conn.cursor()
-    curs.execute(
-        db_change("select data from gbswiki where name='student_gen' and p1=? and p2=? order by ip + 0 desc"),
-        [name, gen])
+    curs.execute(db_change("select * from personal_doc where request_id=?"),[request_id])
+    print(request_id)
     if curs.fetchall():
-        curs.execute(db_change("delete from gbswiki where name='student_gen' and p1=? and p2=?"), [name, gen])
+        curs.execute(db_change("update personal_doc set status=? where request_id=?"), [f"rejected({ip_check()}, {get_time()})" ,request_id])
         conn.commit()
         return redirect('/generate_student/list')
     else:

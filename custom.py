@@ -17,13 +17,13 @@ def custom_run(conn, app):
     def list_student_request():
         return list_student_request_2(conn)
 
-    @app.route('/generate_student/accept/<everything:name>/<everything:gen>', methods=['POST','GET'])
-    def accept_student_request(name, gen):
-        return accept_student_request_2(conn, name, gen)
+    @app.route('/generate_student/accept/<everything:request_id>', methods=['POST','GET'])
+    def accept_student_request(request_id):
+        return accept_student_request_2(conn, request_id=request_id)
 
-    @app.route('/generate_student/delete/<everything:name>/<everything:gen>', methods=['POST','GET'])
-    def delete_student_request(name, gen):
-        return delete_student_request_2(conn, name, gen)
+    @app.route('/generate_student/delete/<everything:request_id>', methods=['POST','GET'])
+    def delete_student_request(request_id):
+        return delete_student_request_2(conn, request_id=request_id)
 
     @app.route('/test', methods=['GET'])
     def test_func():
