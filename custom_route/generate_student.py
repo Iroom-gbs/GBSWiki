@@ -154,7 +154,7 @@ def list_student_request_2(conn):
         times = curs.fetchall()
         curs.execute(db_change("select gen from personal_doc where status = 'pending' order by request_id asc"))
         gens = curs.fetchall()
-
+    conn.commit()
     div += '' + \
            '<a href="/generate_student/history">신청 내역</a><br>' + \
            '생성 요청 수' + ' : ' + str(len(request_ids)) + \
@@ -213,6 +213,7 @@ def show_student_request_history_2(conn):
     gens = curs.fetchall()
     curs.execute(db_change("select status from personal_doc where id = ? order by request_id desc"), [ip])
     status = curs.fetchall()
+    conn.commit()
 
     div = '' + \
           '생성 요청 수' + ' : ' + str(len(request_ids)) + \
