@@ -50,6 +50,7 @@ def user_info_2(conn, name):
             <h2>''' + load_lang('admin') + '''</h2>
             <ul class="inside_ul">
                 <li>이메일 : ''' + get_email(conn, ip) + ''' <a href="/user/manage/email/''' + url_pas(ip) + '''">변경</a></li>
+                <li>비밀번호 재설정: <a href="/user/admin/pw_set/''' + url_pas(ip) + '''">재설정하기</a></li>
                 <li><a href="/ban/''' + url_pas(ip) + '''">''' + ban_name + '''</a></li>
                 <li><a href="/check/''' + url_pas(ip) + '''">''' + load_lang('check') + '''</a></li>
             </ul>

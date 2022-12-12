@@ -719,6 +719,10 @@ def user_info(name = ''):
 def user_manage_email(name):
     return user_manage_email_2(load_db.db_get(), name)
 
+@app.route('/user/admin/pw_set/<name>', methods=['GET', 'POST'])
+def admin_pw_set(name):
+    return admin_pw_set_2(load_db.db_get(), name)
+
 @app.route('/count')
 @app.route('/count/<name>')
 def user_count_edit(name = None):
