@@ -19,6 +19,7 @@ def login_find_email(tool):
                 flask.session['c_key'] = load_random_key(32)
                 flask.session['c_id'] = user_id
                 flask.session['c_type'] = 'pass_find'
+
             else:
                 if not 'c_type' in flask.session:
                     return redirect('/register')
@@ -55,7 +56,7 @@ def login_find_email(tool):
                 if send_email(user_email, t_text, i_text) == 0:
                     return re_error('/error/18')
         
-                return redirect('/pass_find/email')
+                return redirect('/login/find/email/check')
             else:
                 curs.execute(db_change('select id from user_set where name = "email" and data = ?'), [user_email])
                 if curs.fetchall():
@@ -72,7 +73,7 @@ def login_find_email(tool):
         
                 flask.session['c_email'] = user_email
         
-                return redirect('/pass_find/email')
+                return redirect('/login/find/email/check')
         else:
             if tool == 'pass_find':
                 curs.execute(db_change('select data from other where name = "password_search_text"'))
