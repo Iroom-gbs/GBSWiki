@@ -778,6 +778,10 @@ def login_register_email_check():
 def login_register_submit():
     return login_register_submit_2(load_db.db_get())
 
+@app.route('/login/find/id', methods = ['POST', 'GET'])
+def login_find_id():
+    return login_find_id_2(load_db.db_get())
+
 app.route('/login/find')(login_find)
 app.route('/login/find/key', methods = ['POST', 'GET'])(login_find_key)
 app.route('/login/find/email', methods = ['POST', 'GET'], defaults = { 'tool' : 'pass_find' })(login_find_email)
