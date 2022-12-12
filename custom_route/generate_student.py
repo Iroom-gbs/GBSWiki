@@ -156,6 +156,7 @@ def list_student_request_2(conn):
         gens = curs.fetchall()
 
     div += '' + \
+           '<a href="/generate_student/history">신청 내역</a><br>' + \
            '생성 요청 수' + ' : ' + str(len(request_ids)) + \
            '<hr class="main_hr">' + \
            '<ul class="inside_ul">'
@@ -191,3 +192,37 @@ def delete_student_request_2(conn, request_id):
         return redirect('/generate_student/list')
     else:
         return custom_re_error('/custom/일치하는 요청이 없습니다.')
+
+
+def show_student_request_history_2(conn):
+    ip = ip_check()
+    if not admin_check(0):
+        return re_error('/error/3')
+    curs = conn.cursor()
+    curs.execute(db_change("select request_id from personal_doc where id = ? order by request_id desc"), [ip])
+    request_ids = curs.fetchall()
+    curs.execute(db_change("select name from personal_doc where id = ? order by request_id desc"), [ip])
+    names = curs.fetchall()
+    curs.execute(db_change("select id from personal_doc where id = ? order by request_id desc"), [ip])
+    ids = curs.fetchall()
+    curs.execute(db_change("select email from personal_doc where id = ? order by request_id desc"), [ip])
+    emails = curs.fetchall()
+    curs.execute(db_change("select time from personal_doc where id = ? order by request_id desc"), [ip])
+    times = curs.fetchall()
+    curs.execute(db_change("select gen from personal_doc where id = ? order by request_id desc"), [ip])
+    gens = curs.fetchall()
+    curs.execute(db_change("select status from personal_doc where id = ? order by request_id desc"), [ip])
+    status = curs.fetchall()
+
+    div = '' + \
+          '생성 요청 수' + ' : ' + str(len(request_ids)) + \
+          '<hr class="main_hr">' + \
+          '<ul class="inside_ul">'
+    for i in range(len(names)):
+        div += f'<li> {ids[i][0]} | {gens[i][0]} {names[i][0]} | {emails[i][0]} | {times[i][0]} | {status[i][0]} </li>'
+    div += '</ul>'
+    return easy_minify(flask.render_template(skin_check(),
+        imp=['학생문서 생성 신청 기록', wiki_set(), wiki_custom(), wiki_css([0, 0])],
+        data=div,
+        menu=[['other', load_lang('return')]]
+    ))

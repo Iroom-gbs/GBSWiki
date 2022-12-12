@@ -25,6 +25,10 @@ def custom_run(conn, app):
     def delete_student_request(request_id):
         return delete_student_request_2(conn, request_id=request_id)
 
+    @app.route('/generate_student/history', methods=['GET'])
+    def generate_student_history():
+        return show_student_request_history_2(conn)
+
     @app.route('/test', methods=['GET'])
     def test_func():
         get_email(conn, "1")
