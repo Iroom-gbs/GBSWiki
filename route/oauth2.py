@@ -41,11 +41,27 @@ def oauth2_login_2(conn):
         if client[2] != scope:
             return "Error: scpoe not match", 400
 
+        if ip_or_user() == 0:
+            return easy_minify(
+                flask.render_template(skin_check(),
+                imp = ["GBSWiki로 로그인", wiki_set(), wiki_custom(), wiki_css([0, 0])],
+                data =  '''
+                        <h2>''' + client[0] + '''에 로그인</h2> 해당 서비스에서 에서 다음과 같은 권한을 요구합니다.<br><br>
+                        <li> ''' + scope_info[scope] + '''</li>
+                        <li> 유저 상태 </li><br><br>
+                        <form method="post">
+                            ''' + captcha_get() + '''
+                            <button type="submit">''' + ip_check() + '''로 ''' + load_lang('login') + '''</button>
+                            ''' + http_warning() + '''
+                        </form>
+                        '''
+                ))
+
         return easy_minify(
             flask.render_template(skin_check(),
                 imp = ["GBSWiki로 로그인", wiki_set(), wiki_custom(), wiki_css([0, 0])],
                 data =  '''
-                        <h2>''' + client[0] + '''</h2> 에서 다음과 같은 권한을 요구합니다.<br><br>
+                        <h2>''' + client[0] + '''에 로그인</h2> 해당 서비스에서 에서 다음과 같은 권한을 요구합니다.<br><br>
                         <li> ''' + scope_info[scope] + '''</li>
                         <li> 유저 상태 </li><br><br>
                         <form method="post">
@@ -80,30 +96,34 @@ def oauth2_login_2(conn):
         if client[2] != scope:
             return "Error: scpoe not match", 400
 
-        # 로그인
-        user_id = flask.request.form.get('id', '')
-        user_data = {}
+        if ip_or_user() == 0:
+            user_id = ip_check()
 
-        curs.execute(db_change(
-            'select name, data from user_set where id = ? and name = "pw" or name = "encode"'
-        ), [user_id])
-        sql_data = curs.fetchall()
-        if not sql_data:
-            return re_error('/error/2')
+        else:
+            # 로그인
+            user_id = flask.request.form.get('id', '')
+            user_data = {}
 
-        for i in sql_data:
-            user_data[i[0]] = i[1]
+            curs.execute(db_change(
+                'select name, data from user_set where id = ? and name = "pw" or name = "encode"'
+            ), [user_id])
+            sql_data = curs.fetchall()
+            if not sql_data:
+                return re_error('/error/2')
 
-        if len(user_data) < 2:
-            return re_error('/error/2')
+            for i in sql_data:
+                user_data[i[0]] = i[1]
 
-        if pw_check(
-                flask.request.form.get('pw', ''),
-                user_data['pw'],
-                user_data['encode'],
-                user_id
-        ) != 1:
-            return re_error('/error/10')
+            if len(user_data) < 2:
+                return re_error('/error/2')
+
+            if pw_check(
+                    flask.request.form.get('pw', ''),
+                    user_data['pw'],
+                    user_data['encode'],
+                    user_id
+            ) != 1:
+                return re_error('/error/10')
 
         # code 생성
         code = load_random_key(32)
