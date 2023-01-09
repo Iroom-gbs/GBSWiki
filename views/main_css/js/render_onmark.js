@@ -159,7 +159,7 @@ function do_onmark_heading_render(
         }
         
         if(toc_data === '') {
-            toc_data += '<div id="toc"><div id="toc_title">TOC</div>\n';
+            toc_data += '<div id="toc"><div id="toc_title">목차</div>\n';
         }
           
         var heading_level = heading_data[1].length;

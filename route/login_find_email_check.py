@@ -19,13 +19,13 @@ def login_find_email_check(tool):
                     pw_encode(flask.session['c_key']), 
                     flask.session['c_id']
                 ])
-                
+
+                user_id = flask.session['c_id']
+                user_pw = flask.session['c_key']
+
                 curs.execute(db_change('select data from user_set where name = "2fa" and id = ?'), [user_id])
                 if curs.fetchall():
                     curs.execute(db_change("update user_set set data = '' where name = '2fa' and id = ?"), [user_id])
-        
-                user_id = flask.session['c_id']
-                user_pw = flask.session['c_key']
         
                 for i in re_set_list:
                     flask.session.pop(i, None)

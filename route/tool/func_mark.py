@@ -121,7 +121,7 @@ class class_do_render:
                             test_mode = "normal", 
                             name_id = "''' + data_in + '''render_content",
                             name_include = "''' + data_in + '''",
-                            name_doc = "''' + doc_name.replace('"', '\\"') + '''"
+                            name_doc = "''' + html.escape(doc_name.replace('"', '\\"')) + '''"
                         );
                     ''',
                     []
@@ -136,7 +136,7 @@ class class_do_render:
                             test_mode = "normal", 
                             name_id = "''' + data_in + '''render_content",
                             name_include = "''' + data_in + '''",
-                            name_doc = "''' + doc_name.replace('"', '\\"') + '''"
+                            name_doc = "''' + html.escape(doc_name.replace('"', '\\"')) + '''"
                         );
                     ''',
                     []

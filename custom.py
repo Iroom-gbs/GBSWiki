@@ -1,6 +1,8 @@
 from route.tool.func import *
 from custom_route.tools import *
 from custom_route.generate_student import *
+from route.oauth2 import *
+from route.ex_user_info import *
 
 
 def custom_run(conn, app):
@@ -17,15 +19,30 @@ def custom_run(conn, app):
     def list_student_request():
         return list_student_request_2(conn)
 
-    @app.route('/generate_student/accept/<everything:name>/<everything:gen>', methods=['POST','GET'])
-    def accept_student_request(name, gen):
-        return accept_student_request_2(conn, name, gen)
+    @app.route('/generate_student/accept/<everything:request_id>', methods=['POST','GET'])
+    def accept_student_request(request_id):
+        return accept_student_request_2(conn, request_id=request_id)
 
-    @app.route('/generate_student/delete/<everything:name>/<everything:gen>', methods=['POST','GET'])
-    def delete_student_request(name, gen):
-        return delete_student_request_2(conn, name, gen)
+    @app.route('/generate_student/delete/<everything:request_id>', methods=['POST','GET'])
+    def delete_student_request(request_id):
+        return delete_student_request_2(conn, request_id=request_id)
 
-    @app.route('/test', methods=['GET'])
-    def test_func():
-        get_email(conn, "1")
-        return redirect("/")
+    @app.route('/generate_student/history', methods=['GET'])
+    def generate_student_history():
+        return show_student_request_history_2(conn)
+
+    @app.route('/oauth2/login', methods=['POST','GET'])
+    def oauth2_login():
+        return oauth2_login_2(conn)
+
+    @app.route('/oauth2/auth', methods=['POST'])
+    def oauth2_auth():
+        return oauth2_auth_2(conn)
+
+    @app.route('/oauth2/refresh', methods=['POST'])
+    def oauth2_refresh():
+        return oauth2_refresh_2(conn)
+
+    @app.route('/ex/user/info', methods=['POST'])
+    def ex_user_info():
+        return ex_user_info_2(conn)

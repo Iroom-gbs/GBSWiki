@@ -34,7 +34,7 @@ def user_info_2(conn, name):
                 <li><a href="/login">''' + load_lang('login') + '''</a></li>
                 <li><a href="/register">''' + load_lang('register') + '''</a></li>
                 <li><a href="/change">''' + load_lang('user_setting') + '''</a></li>
-                <li><a href="/login/find">''' + load_lang('password_search') + '''</a></li>
+                <li><a href="/login/find">ID/PW 찾기</a></li>
             '''
             
         tool_menu += '<li><a href="/change/head">' + load_lang('user_head') + '</a></li>'
@@ -49,7 +49,8 @@ def user_info_2(conn, name):
         admin_menu = '''
             <h2>''' + load_lang('admin') + '''</h2>
             <ul class="inside_ul">
-                <li>이메일 : ''' + get_email(conn, ip) + '''</li>
+                <li>이메일 : ''' + get_email(conn, ip) + ''' <a href="/user/manage/email/''' + url_pas(ip) + '''">변경</a></li>
+                <li>비밀번호 재설정: <a href="/user/admin/pw_set/''' + url_pas(ip) + '''">재설정하기</a></li>
                 <li><a href="/ban/''' + url_pas(ip) + '''">''' + ban_name + '''</a></li>
                 <li><a href="/check/''' + url_pas(ip) + '''">''' + load_lang('check') + '''</a></li>
             </ul>

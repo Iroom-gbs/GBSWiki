@@ -46,6 +46,7 @@ def user_setting_pw_change_2(conn):
                 pw_encode(new_pw), 
                 ip
             ])
+            conn.commit()
 
         return redirect('/user')
     else:

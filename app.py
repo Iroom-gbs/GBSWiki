@@ -1,6 +1,7 @@
 # Init
 import os
 import re
+from datetime import timedelta
 
 from route.tool.func import *
 # from route import *
@@ -208,7 +209,7 @@ if setup_tool != 'normal':
     create_data['user_set'] = ['name', 'id', 'data']
 
     # 커스텀
-    create_data['gbswiki'] = ['name', 'id', 'data', 'p1', 'p2']
+    create_data['personal_doc'] = ['request_id' ,'name', 'id', 'email', 'time', 'gen', 'status']
 
     for create_table in create_data:
         for create in ['test'] + create_data[create_table]:
@@ -714,6 +715,14 @@ def user_setting_head():
 def user_info(name = ''):
     return user_info_2(load_db.db_get(), name)
 
+@app.route('/user/manage/email/<name>', methods=['GET', 'POST'])
+def user_manage_email(name):
+    return user_manage_email_2(load_db.db_get(), name)
+
+@app.route('/user/admin/pw_set/<name>', methods=['GET', 'POST'])
+def admin_pw_set(name):
+    return admin_pw_set_2(load_db.db_get(), name)
+
 @app.route('/count')
 @app.route('/count/<name>')
 def user_count_edit(name = None):
@@ -768,6 +777,10 @@ def login_register_email_check():
 @app.route('/register/submit', methods = ['POST', 'GET'])
 def login_register_submit():
     return login_register_submit_2(load_db.db_get())
+
+@app.route('/login/find/id', methods = ['POST', 'GET'])
+def login_find_id():
+    return login_find_id_2(load_db.db_get())
 
 app.route('/login/find')(login_find)
 app.route('/login/find/key', methods = ['POST', 'GET'])(login_find_key)
@@ -867,8 +880,9 @@ app.route('/shutdown', methods = ['POST', 'GET'])(main_sys_shutdown)
 app.route('/restart', methods = ['POST', 'GET'])(main_sys_restart)
 app.route('/update', methods = ['POST', 'GET'])(main_sys_update)
 
+from datetime import timedelta
 app.errorhandler(404)(main_error_404)
-
+app.permanent_session_lifetime = timedelta(hours=12)
 if __name__ == "__main__":
     waitress.serve(
         app,

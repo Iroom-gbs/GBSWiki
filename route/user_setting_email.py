@@ -13,7 +13,7 @@ def user_setting_email_2(conn):
         re_set_list = ['c_key']
         flask.session['c_key'] = load_random_key(32)
 
-        user_email = re.sub(r'\\', '', flask.request.form.get('email', ''))
+        user_email = re.sub(r'\\|\(|\)', '', flask.request.form.get('email', ''))
         print(user_email)
         email_data = re.search(r'@([^@]+)$', user_email)
         if not user_email.startswith('gbs.'):

@@ -27,3 +27,4 @@ goorm.manifest
 .DS_Store
 sitemap.xml
 sitemap_0.xml!/views/liberty1/
+venv/
