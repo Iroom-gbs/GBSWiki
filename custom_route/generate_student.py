@@ -5,10 +5,11 @@ from custom_route.tools import *
 def generate_student_doc(conn, request_id):
     # 학생 문서 생성
     curs = conn.cursor()
-    curs.execute(db_change("select name, gen from personal_doc where request_id=?"),[request_id])
+    curs.execute(db_change("select name, gen, email from personal_doc where request_id=?"),[request_id])
     data = curs.fetchall()
     name = data[0][0]
     gen = data[0][1]
+    email = data[0][1]
     print(gen)
 
     curs.execute(db_change("select data from data where title = ?"), [name + '(' + gen + ')'])
@@ -54,6 +55,8 @@ def generate_student_doc(conn, request_id):
     curs.execute(db_change("update personal_doc set status = ? where request_id = ?"), [f"accepted({ip_check()}, {get_time()})" ,request_id])
 
     conn.commit()
+
+    send_email(email, '학생 문서 생성됨', f"{name}님의 학생 문서 바로가기: https://gbs.wiki/w/{name+'('+gen+')'}")
 
     return redirect('/w/' + url_pas(name + "(" + gen + ")"))
 
