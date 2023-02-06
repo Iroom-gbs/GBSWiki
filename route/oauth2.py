@@ -91,8 +91,8 @@ def oauth2_login_2(conn):
         if not client:
             return "Error: client not found", 400
         client = client[0]
-        if client[1] != redirect_uri:
-            return "Error: client_uri not match", 400
+        if redirect_uri not in client[1].replace('\r','').split('\n'):
+            return "Error: redirect_uri not match", 400
         if client[2] != scope:
             return "Error: scpoe not match", 400
 
