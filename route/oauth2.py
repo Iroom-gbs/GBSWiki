@@ -35,8 +35,8 @@ def oauth2_login_2(conn):
         if not client:
             return "Error: client not found", 400
         client = client[0]
-        print(client)
-        if client[1] != redirect_uri:
+
+        if redirect_uri not in client[1].replace('\r','').split('\n'):
             return "Error: redirect_uri not match", 400
         if client[2] != scope:
             return "Error: scpoe not match", 400
@@ -51,7 +51,7 @@ def oauth2_login_2(conn):
                         <li> 유저 상태 </li><br><br>
                         <form method="post">
                             ''' + captcha_get() + '''
-                            <button type="submit">''' + ip_check() + '''로 ''' + load_lang('login') + '''</button>
+                            <button type="submit">''' + ip_check() + '''(으)로 ''' + load_lang('login') + '''</button>
                             ''' + http_warning() + '''
                         </form>
                         '''
@@ -91,8 +91,8 @@ def oauth2_login_2(conn):
         if not client:
             return "Error: client not found", 400
         client = client[0]
-        if client[1] != redirect_uri:
-            return "Error: client_uri not match", 400
+        if redirect_uri not in client[1].replace('\r','').split('\n'):
+            return "Error: redirect_uri not match", 400
         if client[2] != scope:
             return "Error: scpoe not match", 400
 
@@ -131,14 +131,12 @@ def oauth2_login_2(conn):
             client_id, scope, code, user_id, (datetime.datetime.today() + datetime.timedelta(minutes=1)).strftime("%Y-%m-%d %H:%M:%S")
         ])
         conn.commit()
-        print(redirect_uri + "?code=" + code)
         uri = redirect_uri + "?code=" + code
         return flask.redirect(uri)
 
 
 def oauth2_auth_2(conn):
     curs = conn.cursor()
-
     try:
         args = flask.request.args.to_dict()
         client_id = args['client_id']
