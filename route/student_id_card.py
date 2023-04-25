@@ -13,7 +13,7 @@ def student_id_card_2(conn):
     도서대출증 번호: <input type="text" id="lib_id" onfocusout="generate_id_card()"><br>
     <a href="https://docs.google.com/spreadsheets/d/1qyk3eju4K-JwvkoOQfTPEuyCuns2ZFMu-oh7vqJH5xs">도서대출증 번호 찾기</a>
     <br><br>
-    <div style="background-color: #f0fafc;text-align: center;height: 606px;width: 366px">
+    <div style="background-color: #f0fafc;background-image: url(https://gbs.wiki/image/b6d60d561a0165f501455fbd9f26a0fb2ee0c893c6697a25e7dc86a8.png);background-size: 360px;background-position-y: center;background-repeat: no-repeat;text-align: center;height: 600px;width: 366px">
         <div style="background-color: #2b52bb;height: 70px;font-size: 12px;color: #ffffff">
             <div style="height: 8px"></div>
             <div style="margin-left: 8px;margin-right: 8px;border: solid black;border-width: 2px 2px 0 2px;border-top-left-radius: 3px;border-top-right-radius: 3px">
@@ -23,8 +23,8 @@ def student_id_card_2(conn):
         </div>
         <div style="margin: 0 8px 8px 8px;border: solid black;border-width: 0 2px 2px 2px;border-radius: 0 0 3px 3px">
             <br>
-            <div style="border: 2px solid black;width: 200px;height: 205px;margin: auto;">
-                <img width="180 px" src="https://gbs.wiki/image/7d81c607d24e007aa9fff0170f47bcac39f6d4c831fd8d6b5915d461.png">
+            <div style="width: 200px;height: 205px;margin: auto;">
+                <img src="https://gbs.wiki/image/7d81c607d24e007aa9fff0170f47bcac39f6d4c831fd8d6b5915d461.png">
             </div><br>
             <b><p id="name" style="font-size: 24px;font-family: 'NanumGothic'">이름</p></b>
             <svg id="code128"></svg>
