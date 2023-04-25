@@ -3,6 +3,7 @@ from custom_route.tools import *
 from custom_route.generate_student import *
 from route.oauth2 import *
 from route.ex_user_info import *
+from route.student_id_card import *
 
 
 def custom_run(conn, app):
@@ -46,3 +47,7 @@ def custom_run(conn, app):
     @app.route('/ex/user/info', methods=['POST'])
     def ex_user_info():
         return ex_user_info_2(conn)
+
+    @app.route('/student_id_card', methods=['GET','POST'])
+    def student_id_card():
+        return student_id_card_2(conn)

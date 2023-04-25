@@ -80,7 +80,7 @@ def generate_student_2(conn):
             ''',
             menu=[['manager', load_lang('return')]]
             ))
-    return generate_student_doc(conn, name,gen)
+    return generate_student_doc(conn, name, gen)
 
 
 def request_generate_student_2(conn):
