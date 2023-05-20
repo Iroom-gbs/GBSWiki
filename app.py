@@ -421,7 +421,7 @@ def list_acl():
     return list_acl_2(load_db.db_get())
 
 # /list/document/acl/add
-@app.route('/acl/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/acl/<path:name>', methods = ['POST', 'GET'])
 def give_acl(name = None):
     return give_acl_2(load_db.db_get(), name)
 
@@ -523,31 +523,31 @@ def recent_change(name = None):
 def recent_record(name = None):
     return recent_change_2(load_db.db_get(), name, 'record')
 
-@app.route('/history/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/history/<path:name>', methods = ['POST', 'GET'])
 def recent_history(name = None):
     return recent_change_2(load_db.db_get(), name, 'history')
 
-@app.route('/history/tool/<int(signed = True):rev>/<everything:name>')
+@app.route('/history/tool/<int(signed = True):rev>/<path:name>')
 def recent_history_tool(name = 'Test', rev = 1):
     return recent_history_tool_2(load_db.db_get(), name, rev)
 
-@app.route('/history/delete/<int(signed = True):rev>/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/history/delete/<int(signed = True):rev>/<path:name>', methods = ['POST', 'GET'])
 def recent_history_delete(name = 'Test', rev = 1):
     return recent_history_delete_2(load_db.db_get(), name, rev)
 
-@app.route('/history/hidden/<int(signed = True):rev>/<everything:name>')
+@app.route('/history/hidden/<int(signed = True):rev>/<path:name>')
 def recent_history_hidden(name = 'Test', rev = 1):
     return recent_history_hidden_2(load_db.db_get(), name, rev)
 
-@app.route('/history/send/<int(signed = True):rev>/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/history/send/<int(signed = True):rev>/<path:name>', methods = ['POST', 'GET'])
 def recent_history_send(name = 'Test', rev = 1):
     return recent_history_send_2(load_db.db_get(), name, rev)
 
-@app.route('/history/reset/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/history/reset/<path:name>', methods = ['POST', 'GET'])
 def recent_history_reset(name = 'Test'):
     return recent_history_reset_2(load_db.db_get(), name)
 
-@app.route('/history/add/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/history/add/<path:name>', methods = ['POST', 'GET'])
 def recent_history_add(name = 'Test'):
     return recent_history_add_2(load_db.db_get(), name)
 
@@ -570,61 +570,61 @@ def search():
     return search_2(load_db.db_get())
 
 @app.route('/goto', methods=['POST'])
-@app.route('/goto/<everything:name>', methods=['POST'])
+@app.route('/goto/<path:name>', methods=['POST'])
 def search_goto(name = 'test'):
     return search_goto_2(load_db.db_get(), name)
 
-@app.route('/search/<everything:name>')
+@app.route('/search/<path:name>')
 def search_deep(name = 'test'):
     return search_deep_2(load_db.db_get(), name)
 
 # Func-view
-@app.route('/xref/<everything:name>')
+@app.route('/xref/<path:name>')
 def view_xref(name = 'Test'):
     return view_xref_2(load_db.db_get(), name)
 
-@app.route('/xref/this/<everything:name>')
+@app.route('/xref/this/<path:name>')
 def view_xref_this(name = 'Test'):
     return view_xref_2(load_db.db_get(), name, xref_type = '2')
 
-@app.route('/raw/<everything:name>')
+@app.route('/raw/<path:name>')
 @app.route('/thread/<int:topic_num>/raw/<int:num>')
 def view_raw(name = None, topic_num = None, num = None):
     return view_raw_2(load_db.db_get(), name, topic_num, num)
 
-@app.route('/diff/<int(signed = True):num_a>/<int(signed = True):num_b>/<everything:name>')
+@app.route('/diff/<int(signed = True):num_a>/<int(signed = True):num_b>/<path:name>')
 def view_diff(name = 'Test', num_a = 1, num_b = 1):
     return view_diff_2(load_db.db_get(), name, num_a, num_b)
 
-@app.route('/down/<everything:name>')
+@app.route('/down/<path:name>')
 def view_down(name = None):
     return view_down_2(load_db.db_get(), name)
 
-@app.route('/w/<everything:name>/doc_rev/<int(signed = True):doc_rev>')
-@app.route('/w/<everything:name>/doc_from/<everything:doc_from>')
-@app.route('/w/<everything:name>')
+@app.route('/w/<path:name>/doc_rev/<int(signed = True):doc_rev>')
+@app.route('/w/<path:name>/doc_from/<everything:doc_from>')
+@app.route('/w/<path:name>')
 def view_read(name = 'Test', doc_rev = 0, doc_from = ''):
     return view_read_2(load_db.db_get(), name, doc_rev, doc_from)
 
 # Func-edit
-@app.route('/revert/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/revert/<path:name>', methods = ['POST', 'GET'])
 def edit_revert(name = None):
     return edit_revert_2(load_db.db_get(), name)
 
-app.route('/edit/<everything:name>', methods = ['POST', 'GET'])(edit)
-app.route('/edit/<everything:name>/doc_from/<everything:name_load>', methods = ['POST', 'GET'])(edit)
-app.route('/edit/<everything:name>/doc_section/<int:section>', methods = ['POST', 'GET'])(edit)
+app.route('/edit/<path:name>', methods = ['POST', 'GET'])(edit)
+app.route('/edit/<path:name>/doc_from/<path:name_load>', methods = ['POST', 'GET'])(edit)
+app.route('/edit/<path:name>/doc_section/<int:section>', methods = ['POST', 'GET'])(edit)
 
 # 개편 예정
-@app.route('/backlink_reset/<everything:name>')
+@app.route('/backlink_reset/<path:name>')
 def edit_backlink_reset(name = 'Test'):
     return edit_backlink_reset_2(load_db.db_get(), name)
 
-@app.route('/delete/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/delete/<path:name>', methods = ['POST', 'GET'])
 def edit_delete(name = None):
     return edit_delete_2(load_db.db_get(), name)
 
-@app.route('/delete/doc_file/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/delete/doc_file/<path:name>', methods = ['POST', 'GET'])
 def edit_delete_file(name = 'test.jpg'):
     return edit_delete_file_2(load_db.db_get(), name)
 
@@ -632,7 +632,7 @@ def edit_delete_file(name = 'test.jpg'):
 def edit_delete_mutiple():
     return edit_delete_mutiple_2(load_db.db_get())
 
-@app.route('/move/<everything:name>', methods = ['POST', 'GET'])
+@app.route('/move/<path:name>', methods = ['POST', 'GET'])
 def edit_move(name = None):
     return edit_move_2(load_db.db_get(), name)
 
@@ -682,7 +682,7 @@ def topic_admin(topic_num = 1, num = 1):
     return topic_admin_2(load_db.db_get(), topic_num, num)
 
 app.route('/thread/<int:topic_num>', methods = ['POST', 'GET'])(topic)
-app.route('/topic/<everything:name>', methods = ['POST', 'GET'])(topic_close_list)
+app.route('/topic/<path:name>', methods = ['POST', 'GET'])(topic_close_list)
 
 # Func-user
 @app.route('/change', methods = ['POST', 'GET'])
@@ -735,7 +735,7 @@ app.route('/alarm/delete')(user_alarm_del)
 def user_watch_list():
     return user_watch_list_2(load_db.db_get(), 'watch_list')
 
-@app.route('/watch_list/<everything:name>')
+@app.route('/watch_list/<path:name>')
 def user_watch_list_name(name = 'Test'):
     return user_watch_list_name_2(load_db.db_get(), 'watch_list', name)
 
@@ -743,7 +743,7 @@ def user_watch_list_name(name = 'Test'):
 def user_star_doc():
     return user_watch_list_2(load_db.db_get(), 'star_doc')
 
-@app.route('/star_doc/<everything:name>')
+@app.route('/star_doc/<path:name>')
 def user_star_doc_name(name = 'Test'):
     return user_watch_list_name_2(load_db.db_get(), 'star_doc', name)
 
@@ -820,10 +820,10 @@ def vote_add():
     return vote_add_2(load_db.db_get())
 
 # Func-api
-app.route('/api/w/<everything:name>/doc_tool/<tool>/doc_rev/<int(signed = True):rev>')(api_w)
-app.route('/api/w/<everything:name>/doc_tool/<tool>', methods = ['GET', 'POST'])(api_w)
-app.route('/api/w/<everything:name>', methods = ['GET', 'POST'])(api_w)
-app.route('/api/raw/<everything:name>')(api_raw)
+app.route('/api/w/<path:name>/doc_tool/<tool>/doc_rev/<int(signed = True):rev>')(api_w)
+app.route('/api/w/<path:name>/doc_tool/<tool>', methods = ['GET', 'POST'])(api_w)
+app.route('/api/w/<path:name>', methods = ['GET', 'POST'])(api_w)
+app.route('/api/raw/<path:name>')(api_raw)
 
 app.route('/api/version', defaults = { 'version_list' : version_list })(api_version)
 app.route('/api/skin_info')(api_skin_info)
@@ -836,8 +836,8 @@ app.route('/api/thread/<int:topic_num>/<tool>/<int:num>')(api_topic_sub)
 app.route('/api/thread/<int:topic_num>/<tool>')(api_topic_sub)
 app.route('/api/thread/<int:topic_num>')(api_topic_sub)
 
-app.route('/api/search/<everything:name>/doc_num/<int:num>/<int:page>')(api_search)
-app.route('/api/search/<everything:name>')(api_search)
+app.route('/api/search/<path:name>/doc_num/<int:num>/<int:page>')(api_search)
+app.route('/api/search/<path:name>')(api_search)
 
 app.route('/api/recent_change/<int:num>')(api_recent_change)
 app.route('/api/recent_change')(api_recent_change)
@@ -850,7 +850,7 @@ app.route('/api/recent_discuss')(api_recent_discuss)
 
 app.route('/api/sha224/<everything:data>', methods = ['POST', 'GET'])(api_sha224)
 app.route('/api/title_index')(api_title_index)
-app.route('/api/image/<everything:name>', methods = ['POST', 'GET'])(api_image_view)
+app.route('/api/image/<path:name>', methods = ['POST', 'GET'])(api_image_view)
 # 이건 API 영역이 아닌 것 같아서 고심 중
 app.route('/api/sitemap.xml')(api_sitemap)
 
