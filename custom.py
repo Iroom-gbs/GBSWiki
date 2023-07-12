@@ -4,6 +4,7 @@ from custom_route.generate_student import *
 from route.oauth2 import *
 from route.ex_user_info import *
 from route.student_id_card import *
+from route.login_register_google import login_register_google_2, login_register_google_callback_2
 
 
 def custom_run(conn, app):
@@ -51,3 +52,11 @@ def custom_run(conn, app):
     @app.route('/student_id_card', methods=['GET','POST'])
     def student_id_card():
         return student_id_card_2(conn)
+
+    @app.route('/register/google', methods=['POST','GET'])
+    def login_register_google():
+        return login_register_google_2(conn)
+
+    @app.route('/register/google/callback', methods=['POST','GET'])
+    def login_register_google_callback():
+        return login_register_google_callback_2(conn)
