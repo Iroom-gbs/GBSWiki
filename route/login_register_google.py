@@ -32,14 +32,12 @@ def login_register_google_2(conn):
     return login()
 
 def login():
-    print(GOOGLE_DISCOVERY_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET)
-    print(request.base_url)
     google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-    return redirect(client.prepare_request_uri(
+    return flask.redirect(client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
+        redirect_uri=request.base_url.replace("http:", "https:") + "/callback",
         scope=["openid", "email", "profile"],
     ))
 
@@ -50,8 +48,8 @@ def login_register_google_callback_2(conn):
     token_endpoint = google_provider_cfg["token_endpoint"]
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
-        authorization_response=request.url,
-        redirect_url=request.base_url,
+        authorization_response=request.url.replace("http:", "https:"),
+        redirect_url=request.base_url.replace("http:", "https:"),
         code=code,
     )
     token_response = requests.post(
