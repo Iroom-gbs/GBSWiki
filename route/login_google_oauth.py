@@ -37,14 +37,12 @@ def login_google_oauth_2(conn):
         return easy_minify(flask.render_template(skin_check(),
             imp = ["학생 인증", wiki_set(), wiki_custom(), wiki_css([0, 0])],
             data = '''
-            <form method="get">
-            <input type="button" 
-                value="Google OAuth"
-                onclick="location.href = '{{ url_for('login_google_oauth_2', auth = 'google') }}';"
-                style="background-image: url(https://gbs.wiki/views/LibertyForNorth/img/google_login);background-size:100% 100%;"
-                >       
+            학교 계정(@ggh.goe.go.kr)로 로그인해서 인증을 받으세요.<br>
+            졸업생/합격생/기타 학교 계정이 없는 경우, <a href="https://open.kakao.com/o/sv9iXhbf" target="_blank">여기</a>로 문의하세요.<br>
+            <br><br>
+            <a class="btn btn-secondary tools-btn" href="/auth/google?auth=1"><height=30%><img src="/views/LibertyForNorth/img/google_login.png"/></a>  
+            ''',
             menu = [['user', load_lang('return')]]
-            '''
         ))
     return login()
 
@@ -91,6 +89,19 @@ def login_google_oauth_callback_2(conn):
         hd = userinfo_response.json()["hd"]
         if not (users_email.startswith("gbs.") and hd.endswith("ggh.goe.go.kr")):
             return custom_route.custom_re_error("/custom/경기북과학고등학교 계정이 아닙니다.")
+
+        curs = conn.cursor()
+        curs.execute(db_change("select data from user_set where name = email"))
+        if emails:=curs.fetchall():
+            emails = map(emails, lambda x: x[0].lower().strip())
+            if users_email.lower().strip() in emails:
+                return custom_route.custom_re_error("/custom/이미 가입된 이메일입니다.")
+
+        curs.execute(db_change("select data from user_set where name = ?"), [ip_check()])
+        if curs.fetchall():
+            curs.execute(db_change("insert into user_set (name, id, data) values (?, ?, ?)"), ["email", ip_check(), users_email])
+            curs.execute(db_change("insert into user_set (name, id, data) values  (?, ?, ?)"), ["google_name", ip_check(), users_name])
+            conn.commit()
     else:
         return custom_route.custom_re_error("/custom/인증된 계정이 아닙니다.")
 
