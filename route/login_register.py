@@ -73,8 +73,10 @@ def login_register_2(conn):
         
         # 전부 아니면 바로 가입 후 /login으로 발송
         add_user(user_id, user_pw)
-        
-        return redirect('/login')
+
+        # 구글 인증
+        return redirect('/auth/google')
+        # return redirect('/login')
     else:
         curs.execute(db_change('select data from other where name = "contract"'))
         data = curs.fetchall()
