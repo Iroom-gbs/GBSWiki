@@ -50,7 +50,7 @@ def login():
 
     return flask.redirect(client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url.replace("http:", "http:") + "/callback",
+        redirect_uri=request.base_url.replace("http:", "https:") + "/callback",
         scope=["openid", "email", "profile"],
     ))
 
@@ -61,8 +61,8 @@ def auth_google_oauth_callback_2(conn):
     token_endpoint = google_provider_cfg["token_endpoint"]
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
-        authorization_response=request.url.replace("http:", "http:"),
-        redirect_url=request.base_url.replace("http:", "http:"),
+        authorization_response=request.url.replace("http:", "https:"),
+        redirect_url=request.base_url.replace("http:", "https:"),
         code=code,
     )
     token_response = requests.post(
