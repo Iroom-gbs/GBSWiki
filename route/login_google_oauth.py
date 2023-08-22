@@ -81,9 +81,9 @@ def login_google_oauth_callback_2(conn):
         return redirect("/user")
 
     return easy_minify(flask.render_template(skin_check(),
-            imp = ["구글로 로그인", wiki_set(), wiki_custom(), wiki_css([0, 0])],
+            imp = ["가입되 계정이 없습니다.", wiki_set(), wiki_custom(), wiki_css([0, 0])],
             data = '''
-            가입된 계정이 없습니다. 이미 계정이 있다면 ID로 로그인 후 계정에 연동하세요.<br>
+            가입된 계정이 없습니다. 이미 계정이 있다면 ID로 로그인 후 계정에 연동하세요. <a href="/login"> 로그인하러 가기 </a><br>
             아직 계정이 없다면, <a href="/register">여기</a>에서 가입하세요.<br>
             ''',
             menu = [['user', load_lang('return')]]

@@ -24,6 +24,7 @@ def user_info_2(conn, name):
             login_menu += '''
                 <li><a href="/logout">''' + load_lang('logout') + '''</a></li>
                 <li><a href="/change">''' + load_lang('user_setting') + '''</a></li>
+                <li> <a href="/auth/google"> Google 계정 연동하기 </a> </li>
             '''
 
             tool_menu += '<li><a href="/watch_list">' + load_lang('watchlist') + '</a></li>'
