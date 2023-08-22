@@ -80,4 +80,11 @@ def login_google_oauth_callback_2(conn):
         ua_plus(user_id, get_ip(), flask.request.headers.get('User-Agent', ''), get_time())
         return redirect("/user")
 
-    return redirect("/register/google")
+    return easy_minify(flask.render_template(skin_check(),
+            imp = ["구글로 로그인", wiki_set(), wiki_custom(), wiki_css([0, 0])],
+            data = '''
+            가입된 계정이 없습니다. 이미 계정이 있다면 ID로 로그인 후 계정에 연동하세요.<br>
+            아직 계정이 없다면, <a href="/register">여기</a>에서 가입하세요.<br>
+            ''',
+            menu = [['user', load_lang('return')]]
+        ))
