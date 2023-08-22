@@ -4,8 +4,8 @@ from custom_route.generate_student import *
 from route.oauth2 import *
 from route.ex_user_info import *
 from route.student_id_card import *
-from route.login_google_oauth import login_google_oauth_2, login_google_oauth_callback_2
-
+from route.auth_google_oauth import *
+from route.login_google_oauth import *
 
 def custom_run(conn, app):
     #학생 문서 생성
@@ -55,8 +55,16 @@ def custom_run(conn, app):
 
     @app.route('/auth/google', methods=['POST','GET'])
     def login_register_google():
-        return login_google_oauth_2(conn)
+        return auth_google_oauth_2(conn)
 
     @app.route('/auth/google/callback', methods=['POST','GET'])
     def login_register_google_callback():
+        return auth_google_oauth_callback_2(conn)
+
+    @app.route('/login/google', methods=['GET'])
+    def login_google():
+        return login_google_oauth_2(conn)
+
+    @app.route('/login/google/callback', methods=['POST', 'GET'])
+    def login_google_callback():
         return login_google_oauth_callback_2(conn)

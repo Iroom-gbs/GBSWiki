@@ -56,9 +56,14 @@ def login_register_2(conn):
             curs.execute(db_change('select data from other where name = "email_have"'))
             sql_data = curs.fetchall()
             if sql_data and sql_data[0][0] != '':
-                # 임시로 세션에 저장
-                flask.session['reg_id'] = user_id
-                flask.session['reg_pw'] = user_pw
+                # 구글 인증으로 대체
+                add_user(user_id, user_pw)
+                flask.session['id'] = user_id
+                ua_plus(user_id, get_ip(), flask.request.headers.get('User-Agent', ''), get_time())
+                return redirect('/auth/google')
+                # # 임시로 세션에 저장
+                # flask.session['reg_id'] = user_id
+                # flask.session['reg_pw'] = user_pw
 
                 return redirect('/register/email')
             
