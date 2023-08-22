@@ -50,7 +50,7 @@ def login():
 
     return flask.redirect(client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url.replace("http:", "https:") + "/callback",
+        redirect_uri=request.base_url.replace("http:", "http:") + "/callback",
         scope=["openid", "email", "profile"],
     ))
 
@@ -61,8 +61,8 @@ def auth_google_oauth_callback_2(conn):
     token_endpoint = google_provider_cfg["token_endpoint"]
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
-        authorization_response=request.url.replace("http:", "https:"),
-        redirect_url=request.base_url.replace("http:", "https:"),
+        authorization_response=request.url.replace("http:", "http:"),
+        redirect_url=request.base_url.replace("http:", "http:"),
         code=code,
     )
     token_response = requests.post(
@@ -94,15 +94,18 @@ def auth_google_oauth_callback_2(conn):
         if emails:
             emails = list(map(lambda x: x[0].lower().strip(), emails))
             if users_email.lower().strip() in emails:
-                return custom_re_error("/custom/이미 가입된 이메일입니다.")
-
-        curs.execute(db_change("select data from user_set where id = ?"), [ip_check()])
-        if curs.fetchall():
-            curs.execute(db_change("insert into user_set (name, id, data) values (?, ?, ?)"), ["email", ip_check(), users_email])
-            curs.execute(db_change("insert into user_set (name, id, data) values  (?, ?, ?)"), ["google_name", ip_check(), users_name])
-            curs.execute(db_change("insert into user_set (name, id, data) values  (?, ?, ?)"), ["google_uid", ip_check(), unique_id])
-            curs.execute(db_change("insert into user_set (name, id, data) values  (?, ?, ?)"), ["school", ip_check(), "경기북과학고등학교"])
-            conn.commit()
+                curs.execute(db_change("select id from user_set where name = 'email' and data = ?"), [users_email.lower().strip()])
+                c = curs.fetchall()
+                if c:
+                    if c[0][0] != ip_check():
+                        return custom_re_error("/custom/이미 가입된 이메일입니다.")
+            else:
+                curs.execute(db_change("insert into user_set (name, id, data) values (?, ?, ?)"),
+                             ["email", ip_check(), users_email])
+        curs.execute(db_change("insert into user_set (name, id, data) values  (?, ?, ?)"), ["google_name", ip_check(), users_name])
+        curs.execute(db_change("insert into user_set (name, id, data) values  (?, ?, ?)"), ["google_uid", ip_check(), unique_id])
+        curs.execute(db_change("insert into user_set (name, id, data) values  (?, ?, ?)"), ["school", ip_check(), "경기북과학고등학교"])
+        conn.commit()
     else:
         return custom_re_error("/custom/인증된 계정이 아닙니다.")
 
