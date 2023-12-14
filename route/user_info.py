@@ -24,6 +24,7 @@ def user_info_2(conn, name):
             login_menu += '''
                 <li><a href="/logout">''' + load_lang('logout') + '''</a></li>
                 <li><a href="/change">''' + load_lang('user_setting') + '''</a></li>
+                <li> <a href="/auth/google"> Google 계정 연동하기 </a> </li>
             '''
 
             tool_menu += '<li><a href="/watch_list">' + load_lang('watchlist') + '</a></li>'
@@ -31,10 +32,19 @@ def user_info_2(conn, name):
             tool_menu += '<li><a href="/acl/user:' + url_pas(ip) + '">' + load_lang('user_document_acl') + '</a></li>'
         else:
             login_menu += '''
-                <li><a href="/login">''' + load_lang('login') + '''</a></li>
-                <li><a href="/register">''' + load_lang('register') + '''</a></li>
-                <li><a href="/change">''' + load_lang('user_setting') + '''</a></li>
-                <li><a href="/login/find">ID/PW 찾기</a></li>
+                <li> SNS 로그인 <br>
+                <a href="/login/google"><img src="/views/LibertyForNorth/img/google_login.png"></a> </li>
+                <li> ID 로그인
+                <form method="post" action="/login" >
+                    <input placeholder="''' + load_lang('id') + '''" name="id" type="text">
+                    <hr class="main_hr">
+                    <input placeholder="''' + load_lang('password') + '''" name="pw" type="password">
+                    <hr class="main_hr">
+                    ''' + captcha_get() + '''
+                    <button type="submit">''' + load_lang('login') + '''</button> 
+                    <button type="button" onclick="location.href='/register'"> ''' + load_lang('register') + ''' </button><br>
+                    <a href="/login/find">ID/PW 찾기</a>
+                </form></li>
             '''
             
         tool_menu += '<li><a href="/change/head">' + load_lang('user_head') + '</a></li>'

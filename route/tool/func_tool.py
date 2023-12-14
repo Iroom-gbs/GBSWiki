@@ -56,6 +56,32 @@ def ip_check(d_type = 0):
 
     return ip
 
+def get_ip():
+    ip = ''
+    for for_a in range(5):
+        if for_a == 0:
+            ip = flask.request.environ.get('HTTP_X_REAL_IP', '::1')
+        elif for_a == 1:
+            ip = flask.request.environ.get('HTTP_CLIENT_IP', '::1')
+        elif for_a == 2:
+            ip = flask.request.environ.get('HTTP_X_FORWARDED_FOR', '::1')
+        elif for_a == 3:
+            ip = flask.request.environ.get('HTTP_CF_CONNECTING_IP', '::1')
+        else:
+            ip = flask.request.environ.get('REMOTE_ADDR', '::1')
+
+        if type(ip) == type([]):
+            ip = ip[0]
+        else:
+            ip = ip.split(',')
+            ip = ip[0]
+
+        if ip != '::1':
+            break
+
+
+    return ip
+
 def url_pas(data):
     return urllib.parse.quote(data).replace('/','%2F')
 

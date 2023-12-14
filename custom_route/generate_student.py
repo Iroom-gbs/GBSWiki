@@ -5,10 +5,11 @@ from custom_route.tools import *
 def generate_student_doc(conn, request_id):
     # 학생 문서 생성
     curs = conn.cursor()
-    curs.execute(db_change("select name, gen from personal_doc where request_id=?"),[request_id])
+    curs.execute(db_change("select name, gen, email from personal_doc where request_id=?"),[request_id])
     data = curs.fetchall()
     name = data[0][0]
     gen = data[0][1]
+    email = data[0][1]
     print(gen)
 
     curs.execute(db_change("select data from data where title = ?"), [name + '(' + gen + ')'])
@@ -55,6 +56,8 @@ def generate_student_doc(conn, request_id):
 
     conn.commit()
 
+    send_email(email, '학생 문서 생성됨', f"{name}님의 학생 문서 바로가기: https://gbs.wiki/w/{name+'('+gen+')'}")
+
     return redirect('/w/' + url_pas(name + "(" + gen + ")"))
 
 
@@ -80,7 +83,7 @@ def generate_student_2(conn):
             ''',
             menu=[['manager', load_lang('return')]]
             ))
-    return generate_student_doc(conn, name,gen)
+    return generate_student_doc(conn, name, gen)
 
 
 def request_generate_student_2(conn):
@@ -200,28 +203,17 @@ def show_student_request_history_2(conn):
     if not admin_check(0):
         return re_error('/error/3')
     curs = conn.cursor()
-    curs.execute(db_change("select request_id from personal_doc where id = ? order by request_id desc"), [ip])
-    request_ids = curs.fetchall()
-    curs.execute(db_change("select name from personal_doc where id = ? order by request_id desc"), [ip])
-    names = curs.fetchall()
-    curs.execute(db_change("select id from personal_doc where id = ? order by request_id desc"), [ip])
-    ids = curs.fetchall()
-    curs.execute(db_change("select email from personal_doc where id = ? order by request_id desc"), [ip])
-    emails = curs.fetchall()
-    curs.execute(db_change("select time from personal_doc where id = ? order by request_id desc"), [ip])
-    times = curs.fetchall()
-    curs.execute(db_change("select gen from personal_doc where id = ? order by request_id desc"), [ip])
-    gens = curs.fetchall()
-    curs.execute(db_change("select status from personal_doc where id = ? order by request_id desc"), [ip])
-    status = curs.fetchall()
+    curs.execute(db_change("select request_id, name, id, email, time, gen, status from personal_doc order by time desc"))
+    reqs = curs.fetchall()
+    print(reqs)
     conn.commit()
 
     div = '' + \
-          '생성 요청 수' + ' : ' + str(len(request_ids)) + \
+          '생성 요청 수' + ' : ' + str(len(reqs)) + \
           '<hr class="main_hr">' + \
           '<ul class="inside_ul">'
-    for i in range(len(names)):
-        div += f'<li> {ids[i][0]} | {gens[i][0]} {names[i][0]} | {emails[i][0]} | {times[i][0]} | {status[i][0]} </li>'
+    for i in reqs:
+        div += f'<li> {i[0]} | {i[1]} {i[2]} | {i[3]} | {i[4]} | {i[5]} </li>'
     div += '</ul>'
     return easy_minify(flask.render_template(skin_check(),
         imp=['학생문서 생성 신청 기록', wiki_set(), wiki_custom(), wiki_css([0, 0])],
