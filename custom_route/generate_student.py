@@ -123,7 +123,7 @@ def request_generate_student_2(conn):
     curs.execute(db_change("insert into personal_doc (request_id, name, id, email, time, gen, status) values (?, ?, ?, ?, ?, ?, ?)"),
                  [str(int(last_request_id)+1), name, ip, email[0][0], today, gen, 'pending'])
     conn.commit()
-    send_email('hegelty@gbs.wiki', '학생 문서 생성 신청 들어옴', f"ㅈㄱㄴ")
+    send_email('p@gbs.wiki', '학생 문서 생성 신청 들어옴', f"ㅈㄱㄴ")
     return redirect('/generate_student/list')
 
 
