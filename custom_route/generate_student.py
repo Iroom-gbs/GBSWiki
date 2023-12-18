@@ -62,7 +62,7 @@ def generate_student_doc(conn, request_id):
 
 
 def generate_student_2(conn):
-    if admin_check(0) != 1:
+    if admin_check(0) != 1 and admin_check(7) != 1:
         return re_error('/error/3')
     try:
         name = flask.request.form['name']
@@ -131,7 +131,7 @@ def list_student_request_2(conn):
     curs = conn.cursor()
     ip = ip_check()
     div = ''
-    if admin_check(0) != 1:
+    if admin_check(0) != 1 and admin_check(7) != 1:
         curs.execute(db_change("select request_id from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
         request_ids = curs.fetchall()
         curs.execute(db_change("select name from personal_doc where status = 'pending' and id = ? order by request_id asc"), [ip])
@@ -175,7 +175,7 @@ def list_student_request_2(conn):
 
 
 def accept_student_request_2(conn, request_id):
-    if admin_check(0) != 1:
+    if admin_check(0) != 1 and admin_check(7) != 1:
         return re_error('/error/3')
     curs = conn.cursor()
     curs.execute(db_change("select * from personal_doc where request_id=?"),[request_id])
@@ -185,7 +185,7 @@ def accept_student_request_2(conn, request_id):
 
 
 def delete_student_request_2(conn, request_id):
-    if admin_check(0) != 1:
+    if admin_check(0) != 1 and admin_check(7) != 1:
         return re_error('/error/3')
     curs = conn.cursor()
     curs.execute(db_change("select * from personal_doc where request_id=?"),[request_id])
@@ -200,7 +200,7 @@ def delete_student_request_2(conn, request_id):
 
 def show_student_request_history_2(conn):
     ip = ip_check()
-    if not admin_check(0):
+    if not admin_check(0) and not admin_check(7):
         return re_error('/error/3')
     curs = conn.cursor()
     curs.execute(db_change("select request_id, name, id, email, time, gen, status from personal_doc order by time desc"))
