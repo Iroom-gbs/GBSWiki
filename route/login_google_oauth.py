@@ -7,8 +7,8 @@ from custom_route.tools import *
 from .tool.func import *
 
 
-GOOGLE_CLIENT_ID = open("~/.google_client_id").read().strip()
-GOOGLE_CLIENT_SECRET = open("~/.google_client_secret").read().strip()
+GOOGLE_CLIENT_ID = open("../.google_client_id").read().strip()
+GOOGLE_CLIENT_SECRET = open("../.google_client_secret").read().strip()
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
