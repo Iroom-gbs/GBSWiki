@@ -28,7 +28,7 @@ def auth_google_oauth_2(conn):
             imp = ["학생 인증", wiki_set(), wiki_custom(), wiki_css([0, 0])],
             data = '''
             학교 계정(@ggh.goe.go.kr)로 로그인해서 인증을 받으세요.<br>
-            졸업생/합격생/기타 학교 계정이 없는 경우, <a href="https://open.kakao.com/o/sv9iXhbf" target="_blank">여기</a>로 문의하세요.<br>
+            졸업생/합격생/기타 학교 계정이 없는 경우, <a href="https://open.kakao.com/o/s4rSNnXg" target="_blank">여기</a>로 문의하세요.<br>
             <br><br>
             <a href="/auth/google?auth=1"><height=30%><img src="/views/LibertyForNorth/img/google_login.png"/></a>  
             ''',
