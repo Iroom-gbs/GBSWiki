@@ -1,19 +1,12 @@
-import os
-
 from flask import request
-from oauthlib.oauth2 import WebApplicationClient
 
 from custom_route.tools import *
 from .tool.func import *
 
-
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", os.environ.get("GOOGLE_CLIENT_SECRET"))
+GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, client = get_google_oauth_client()
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
-client = WebApplicationClient(GOOGLE_CLIENT_ID)
-
 
 
 def auth_google_oauth_2(conn):
