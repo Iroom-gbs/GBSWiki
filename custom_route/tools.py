@@ -1,3 +1,4 @@
+from oauthlib.oauth2 import WebApplicationClient
 from route.tool.func import *
 
 
@@ -144,3 +145,11 @@ def check_close(conn, title):
         if data[0][0] == '1':
             return True
     return False
+
+
+def get_google_oauth_client():
+    GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", open("../.google_client_id").read().strip())
+    GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", open("../.google_client_secret").read().strip())
+    client = WebApplicationClient(GOOGLE_CLIENT_ID)
+
+    return GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, client
