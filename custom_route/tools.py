@@ -148,8 +148,8 @@ def check_close(conn, title):
 
 
 def get_google_oauth_client():
-    GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", open("../.google_client_id").read().strip())
-    GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", open("../.google_client_secret").read().strip())
+    GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
     client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
     return GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, client
