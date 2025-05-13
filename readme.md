@@ -2,6 +2,16 @@
 이 위키엔진은 오픈나무를 바탕으로 만들어진 위키 엔진입니다. 경기북과학고 [GBSWiki](https://gbs.wiki)에 사용됩니다.   
 오픈나무 3.4.3 beta버전을 기반으로 합니다.
 
+```bash
+> podman build -t gbswiki .
+
+> podman run -d \
+  --name wiki \
+  --restart=always \
+  -p 8000:8000 \
+  gbswiki
+  ```
+
 # 변경사항
 ## 1.0
 * 인물 문서 생성 기능
